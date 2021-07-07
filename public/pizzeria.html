@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NOSTRA PIZZA</title>
+  <link rel="stylesheet" href="./css/pizzeria.css">
+</head>
+
+<body>
+  <h2>NOSTRA PIZZA</h2>
+  <p>Panel de administracion</p>
+
+  <div class="tab">
+    <button class="tablinks" onclick="openCity(event, 'Pizzeria')" id="defaultOpen">Pizzeria</button>
+    <button class="tablinks" onclick="openCity(event, 'Pedidos')" id="defaultOpen">Pedidos</button>
+    <button class="tablinks" onclick="openCity(event, 'Deliverys')">Deliverys</button>
+    <button class="tablinks" onclick="openCity(event, 'Clientes')">Clientes</button>
+    <button class="tablinks" onclick="openCity(event, 'Menus')">Menus</button>
+  </div>
+
+  <div id="Pizzeria" class="tabcontent">
+    <h3>Pizzeria</h3>
+
+  </div>
+
+  <div id="Pedidos" class="tabcontent">
+      <h3>Pedidos</h3>
+    <div>
+      <a onclick="ModaAddOreder()">agregar pedido</a>
+      <a onclick="ModaDeliveryOreder()">agregar delivery</a>
+      <a onclick="OrderConfirm()">confirmar pedido</a>
+      <label for="">Buscar pedidos por delivery</label><samp id='dropdown-delivery-search' style="padding: 16px;"></samp>
+      <a onclick="PrintElem()">imprimir pedido</a>
+    </div>
+    <div>
+      <table class="table-menu" id='table-pedidos'>
+        <thead>
+          <tr>
+            <th>
+              Nº Orden
+            </th>
+            <th>
+              Fecha
+            </th>
+            <th>
+              Hora
+            </th>
+            <th>
+              Cliente
+            </th>
+            <th>
+              Pedido
+            </th>
+            <th>
+              Detalles
+            </th>
+            <th>
+              Direecion
+            </th>
+            <th>
+              Telefóno
+            </th>
+            <th>
+              Delivery
+            </th>
+            <th>
+              Total a pagar
+            </th>
+          </tr>
+        </thead>
+        <tbody id='tbody-pedidos'>
+
+        </tbody>
+        <tfoot>
+          <tr>
+            <td>
+              Total General:
+            </td>
+            <td id="oreders_general_total">
+              
+            </td>
+            <td>
+              Porcentaje de Venta:
+            </td>
+            <td id="oreders_porcentage">
+              
+            </td>
+            <td colspan="4">
+              
+            </td>
+            <td>
+              Total:
+            </td>
+            <td id='total-oreders-price'>
+              
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+
+  <div id="Deliverys" class="tabcontent">
+    <h3>Deliverys</h3>
+    <div>
+      <a onclick="ModaDelivery()">agregar delivery</a>
+    </div>
+    <div>
+      <table class="table-menu">
+        <thead>
+          <tr>
+            <th>
+              Nombre
+            </th>
+            <th>
+              Apellido
+            </th>
+            <th>
+              Matricula
+            </th>
+            <th>
+              Vehiculo
+            </th>
+          </tr>
+        </thead>
+        <tbody id='tbody-deliverys'>
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div id="Clientes" class="tabcontent">   
+      <h3>Clientes</h3>
+       <p>Lista de deliverys.</p>
+  </div>
+  <div id="Menus" class="tabcontent">
+    <h3>Menus</h3>
+    <div>
+      <a onclick="ModalMenu()">agregar menu</a>
+      <a onclick="ModalCategoria()">agregar categoria</a>
+    </div>
+    <div>
+      <table class="table-menu">
+        <thead>
+          <tr>
+            <th>
+              categoria
+            </th>
+            <th>
+              titulo
+            </th>
+            <th>
+              descripcion
+            </th>
+            <th>
+              precio
+            </th>
+            <th>
+              disponivilidad
+            </th>
+            <th>
+              _imagen
+            </th>
+          </tr>
+        </thead>
+        <tbody id='tbody-menu'>
+
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+
+
+
+</body>
+<script src="./js/golbal.js"></script>
+<script src="./js/DropDown.js"></script>
+<script src="./js/Modal.js"></script>
+<script src="./js/order_print.js"></script>
+<script src="./js/main_menu.js"></script>
+<script src="./js/clients.js"></script>
+<script src="./pizzeria.js"></script>
+
+</html>

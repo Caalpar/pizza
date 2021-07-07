@@ -1,0 +1,17 @@
+.hours-days
+{
+    position: relative;
+    bottom:2em;
+    background-color: black;
+    padding: 10px;
+}
+
+#days
+{
+    left: -23vw;
+}
+
+#hours
+{
+    left: 41vw;
+}

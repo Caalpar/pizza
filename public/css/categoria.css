@@ -1,0 +1,37 @@
+.accordion {
+    background-color: black;
+    border:none;
+    border-bottom: 1px solid white;
+    color: white;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    text-align: left;
+    outline: none;
+    font-size: 5vw;
+    transition: 0.4s;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  }
+
+  .accordion:hover, .accordion:active {
+    background-color: white;
+    color: black;
+  }
+
+  .accordion:after {
+    content: '\002B';
+    color: #777;
+    font-weight: bold;
+    float: right;
+    margin-left: 5px;
+  }
+
+  .panel {
+    background-color: black;
+    width: 100%;
+    margin: auto;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+  }
+

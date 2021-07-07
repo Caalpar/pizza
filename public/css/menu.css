@@ -1,0 +1,110 @@
+.menu-title{
+    padding-top: 8vh;
+    font-size: 3em;
+}
+
+.addorder
+{
+    background-color: rgb(94, 94, 255);
+    text-align: center;
+    border-radius: 50%;
+    position: absolute;
+    top: 3vw;
+    right: 3vw;
+    line-height: 3.6vw;
+    width: 4vw;
+    height: 4vw;
+}
+
+.addorder:after {
+    font-size: 40px;
+    content: '\002B';
+
+}
+
+
+.order 
+{
+    background-color: rgba(255, 255, 255, 0.733);
+    color: black;
+}
+
+.order p b
+{
+  
+    color: black;
+}
+
+.order p
+{
+  
+    color: black;
+}
+
+.order .addorder
+{
+    background-color: #4acf9e;
+}
+
+.order .addorder:after
+{
+    content: "\2713";
+}
+
+.triangle {
+    border-left: 7vmax solid red;
+    border-bottom: 7vmax solid transparent;
+    position: absolute;
+}
+
+.triangle::after {
+  content: 'agotado';
+  color: #fff;
+  font-size: 1.5vmax;
+  text-transform: uppercase;
+  left: -4.75vmax;
+  top: 1.2vmax;
+  position: absolute;
+  text-align: center;
+  transform: translateX(-50%) rotate(315deg);
+}
+
+.food
+{
+    display: inline-block;
+    border-bottom:5px solid black; 
+    position: relative;
+    padding: 1vw;
+    width: 30vw;
+    vertical-align: top;
+    border-radius: 1%;
+}
+
+
+.food-description{
+    text-align: left;
+    
+}
+
+.food-price-history
+{
+    border-radius: 10%;
+    font-weight: 300;
+}
+
+.food-price
+{
+   
+    background-color: rgb(83, 83, 83);
+    float: right;
+    position: relative;
+    border-radius: 10%;
+    font-weight: 300;
+}
+
+.menu-conten{
+    background-color: black;
+    padding-bottom: 15vh;
+    text-align: center;
+    padding: spx;
+}

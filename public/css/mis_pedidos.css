@@ -1,0 +1,35 @@
+.btn-my-orders
+{
+    margin: 0 !important;
+    border-radius: 0;
+    padding: 0 !important;
+    width: 49.6% !important;
+    background-color: #7e7e80 !important; 
+    border-radius: 0 !important;
+    border: none !important;
+} 
+
+.history{
+    background-color: #a37773 !important;   
+}
+
+.history-content{
+    display: none;
+}   
+
+.history-content span{
+    background-color: #a37773;  
+}
+
+.my-orders-content span{
+    background-color: #7e7e80;
+}
+
+.my-orders-content span, .history-content span
+{
+    float: left;
+    width: 20%;
+    padding: 1vh 0;
+    height: 6vh;
+    overflow-x: auto;
+}
