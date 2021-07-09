@@ -371,10 +371,11 @@ export const GetPizzerias = (res) => {
     const pizz = Pizzeria.find({}, (err, pizz) => {
         if (err) throw err
         if (pizz) {
-            pizz[0].OpenStored()
+            let hours_data = pizz[0].OpenStored()
             let data = {
                 msg: "se envio la pizzeria",
-                pizz
+                pizz,
+                hours_data
             }
             SendClient(res, data)
         }

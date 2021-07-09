@@ -1,5 +1,5 @@
 class Menu {
-    constructor(id, cat_id, image, titel_menu, price, descripion,disponible) {
+    constructor(id, cat_id, image, titel_menu, price, descripion,disponible,open_shop) {
         this.id = id
         this.cat_id = cat_id
         this.image = image
@@ -7,6 +7,7 @@ class Menu {
         this.price = price
         this.descripion = descripion
         this.disponible = disponible
+        this.open_shop = open_shop
 
 
     }
@@ -22,6 +23,15 @@ class Menu {
             addorder_function = ''
             btn_addorder = ''
         }
+
+        if(!this.open_shop)
+        {
+            enabled =  '<div class="triangle-close"></div>'
+            addorder_function = ''
+            btn_addorder = ''
+        }
+
+
 
         return `<div class ="food" ${addorder_function} id="menu_${this.id + '_' + this.cat_id}">
         ${enabled}

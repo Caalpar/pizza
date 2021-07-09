@@ -1,6 +1,6 @@
 import Pedidos from '../Models/pedido'
 import { Get_Pizzeria, Get_Pizzerias } from './pizzeria'
-import { Get_Client, GetClientes, Get_AllClientes, AddOrederClientes,UpdateOrederCliente } from './user'
+import { Get_Client, GetClientes, Get_AllClientes, AddOrederClientes, UpdateOrederCliente } from './user'
 import { GetDelivery, Get_Delivery, Get_Deliverys } from './delivery'
 import { SendClient } from '../../tools/tools'
 
@@ -16,51 +16,58 @@ export const CreatePedido = (id_cliente, id_Pizzeria, ids_menu, details, res) =>
         if (!pedido) {
             Get_Pizzeria(id_Pizzeria).then(pizz => {
                 if (pizz) {
+
                     Get_Client(id_cliente).then(client => {
                         if (client) {
-                            let index_m = -1
-                            let index_cat = -1
-                            pizz.menus.forEach((c, index_c) => {
-                                if (index_m === -1) {
-                                    index_cat = index_c
-                                    ids_menu.forEach(id_menu_order => {
-                                        index_m = c.menu.findIndex(c => c._id == id_menu_order)
-                                    });
 
+                            if (pizz.OpenStored().open) {
 
-                                }
-                            });
+                                let index_m = -1
+                                let index_cat = -1
+                                pizz.menus.forEach((c, index_c) => {
+                                    if (index_m === -1) {
+                                        index_cat = index_c
+                                        ids_menu.forEach(id_menu_order => {
+                                            index_m = c.menu.findIndex(c => c._id == id_menu_order)
+                                        });
 
-                            if (index_cat !== -1 && index_m !== -1) {
-                                const new_pedido = new Pedidos()
-                                new_pedido.id_user = id_cliente
-                                new_pedido.id_pizzeria = id_Pizzeria
-                                new_pedido.ids_menu = ids_menu
-                                new_pedido.id_delivery = ''
-                                new_pedido.details = details
-                                new_pedido.date = new Date()
-                                new_pedido.state = 'process'
-                                new_pedido.order_number = n_oreder
-                                if(n_oreder == 10)
-                                n_oreder = 0
-                                else
-                                n_oreder++
-
-                                new_pedido.save((err, data) => {
-                                    if (err) throw err
-
-                                    if (data) {
-                                        let date_local = data.date.toLocaleString()
-                                        console.log(data.order_number)
-                                        AddOrederClientes(id_cliente, data._id, data.id_pizzeria, date_local, ids_menu, res)
 
                                     }
+                                });
+
+                                if (index_cat !== -1 && index_m !== -1) {
+                                    const new_pedido = new Pedidos()
+                                    new_pedido.id_user = id_cliente
+                                    new_pedido.id_pizzeria = id_Pizzeria
+                                    new_pedido.ids_menu = ids_menu
+                                    new_pedido.id_delivery = ''
+                                    new_pedido.details = details
+                                    new_pedido.date = new Date()
+                                    new_pedido.state = 'process'
+                                    new_pedido.order_number = n_oreder
+                                    if (n_oreder == 10)
+                                        n_oreder = 0
+                                    else
+                                        n_oreder++
+
+                                    new_pedido.save((err, data) => {
+                                        if (err) throw err
+
+                                        if (data) {
+                                            let date_local = data.date.toLocaleString()
+                                            console.log(data.order_number)
+                                            AddOrederClientes(id_cliente, data._id, data.id_pizzeria, date_local, ids_menu, res)
+
+                                        }
 
 
-                                })
+                                    })
+                                }
+                                else
+                                    SendClient(res, { msg: "error al crear el pedido" })
                             }
                             else
-                                SendClient(res, { msg: "error al crear el pedido" })
+                                SendClient(res, { msg: "el local esta cerrado" })
                         }
                         else
                             SendClient(res, { msg: "el cliente no existe" })
@@ -93,7 +100,7 @@ export const GetOrederState = (_id, res) => {
                     let ids_menu = pedido.ids_menu
 
 
-                    SendClient(res, { msg: "este es el estado del pedido", delivery, pedido },false)
+                    SendClient(res, { msg: "este es el estado del pedido", delivery, pedido }, false)
                 }
                 else {
                     SendClient(res, { msg: "este es el estado del pedido", delivery, state })
@@ -131,7 +138,7 @@ export const AddDelivery = (_id, _id_delivery, res) => {
     })
 }
 
-export const ConfirmOrder = (_id,res) => {
+export const ConfirmOrder = (_id, res) => {
 
 
     Pedidos.findOne({ _id: _id }, (err, pedido) => {
@@ -145,17 +152,15 @@ export const ConfirmOrder = (_id,res) => {
                 if (err) throw err
 
                 if (data) {
-                   
-                    UpdateOrederCliente(data.id_user,data._id,data.state,res)
+
+                    UpdateOrederCliente(data.id_user, data._id, data.state, res)
                 }
                 else
-                    SendClient(res, { msg: "no se a podido confirmar el pedido"})
+                    SendClient(res, { msg: "no se a podido confirmar el pedido" })
             })
         }
     })
 }
-
-
 
 export const GetPedidoFromID = (_id, res) => {
 
@@ -176,10 +181,10 @@ export const GetPedidoFromID = (_id, res) => {
                             let n_order = pedido.order_number
                             let state = pedido.state
                             let count = 1
-
+                            let open_shop = pizz.OpenStored().open
 
                             pedido.ids_menu.forEach(id_m => {
-                              
+
                                 let temp_menu = null
                                 pizz.menus.forEach(c => {
 
@@ -190,66 +195,66 @@ export const GetPedidoFromID = (_id, res) => {
                                     })
 
                                 })
-                               
+
                                 menu.push(temp_menu)
 
                             })
 
-                           
 
 
-                            menu.forEach(m=>{
+
+                            menu.forEach(m => {
                                 total += m.precio
                             })
-                            
 
-                                if (menu.length == 1) {
-                                    titulo = '1 X ' + menu[0].titulo +'<br>'
-                                }
-                                else {
-                                    for (let index = 0; index < menu.length - 1; index++) {
 
-                                        let index_next = index + 1
-                                        const current_t = menu[index].titulo;
-                                        const next_t = menu[index_next].titulo;
+                            if (menu.length == 1) {
+                                titulo = '1 X ' + menu[0].titulo + '<br>'
+                            }
+                            else {
+                                for (let index = 0; index < menu.length - 1; index++) {
 
-                                        console.log(current_t +' : '+next_t)
+                                    let index_next = index + 1
+                                    const current_t = menu[index].titulo;
+                                    const next_t = menu[index_next].titulo;
 
-                                        if (current_t == next_t) {
-                                            count++
+    
 
-                                            if (index_next == menu.length - 1) {
-                                                titulo += count + 'X ' + next_t +'<br>'
-                                            }
+                                    if (current_t == next_t) {
+                                        count++
 
+                                        if (index_next == menu.length - 1) {
+                                            titulo += count + 'X ' + next_t + '<br>'
                                         }
-                                        else {
-                                            titulo += count + 'X ' + current_t +'<br>'
-                                            count = 1
-                                            if (index_next == menu.length - 1) {
-                                                titulo += count + 'X ' + next_t +'<br>'
-                                            }
-                                        }
-
 
                                     }
+                                    else {
+                                        titulo += count + 'X ' + current_t + '<br>'
+                                        count = 1
+                                        if (index_next == menu.length - 1) {
+                                            titulo += count + 'X ' + next_t + '<br>'
+                                        }
+                                    }
+
+
                                 }
+                            }
 
-                                console.log(titulo)
+                           
 
-                                oreders.push({ total, titulo, date, state,_id,n_order })
+                            oreders.push({ total, titulo, date, state, _id, n_order })
 
 
 
                             if (oreders.length > 0) {
 
                                 if (pedido.id_delivery == '') {
-                                    SendClient(res, { msg: "se a encontrado el pedido correctamente", oreders })
+                                    SendClient(res, { msg: "se a encontrado el pedido correctamente", oreders ,open_shop})
                                 }
                                 else {
                                     GetDelivery(pedido.id_delivery).then(delivery => {
                                         if (delivery) {
-                                            SendClient(res, { msg: "se a encontrado el pedido correctamente", oreders, delivery })
+                                            SendClient(res, { msg: "se a encontrado el pedido correctamente", oreders, delivery ,open_shop})
                                         }
                                     })
                                 }
@@ -352,12 +357,12 @@ export const GetPedidos = (_id_pizzeria, res) => {
                 if (pizz) {
                     Get_AllClientes().then(clients => {
                         if (clients) {
-                           
+
 
                             Get_Deliverys().then(del => {
                                 if (del) {
                                     let oreders = []
-                                  
+
 
                                     pedidos.forEach(pedido => {
                                         // aca esta el problema  
@@ -365,14 +370,14 @@ export const GetPedidos = (_id_pizzeria, res) => {
                                         let index_pizz = pizz.findIndex(p => p._id == pedido.id_pizzeria)
                                         let index_cli = clients.findIndex(c => c._id == pedido.id_user)
 
-                                        
+
                                         if ((index_pizz !== -1) && (index_cli !== -1)) {
                                             let index_menu = -1
                                             let menu = []
                                             let index_delivery = -1
                                             let delivery = ''
 
-                                           
+
                                             pizz[index_pizz].menus.forEach(cat => {
                                                 pedido.ids_menu.forEach(_id_menu => {
                                                     index_menu = cat.menu.findIndex(m => m._id == _id_menu)
@@ -386,7 +391,7 @@ export const GetPedidos = (_id_pizzeria, res) => {
                                             index_delivery = del.findIndex(m => m._id == pedido.id_delivery)
                                             delivery = del[index_delivery]
 
-                                            
+
 
                                             if (menu.length > 0) {
 
@@ -412,15 +417,15 @@ export const GetPedidos = (_id_pizzeria, res) => {
 
                                     });
                                     if (oreders.length > 0)
-                                        SendClient(res, { msg: "se han enviado correctamente los pedidos", oreders },false)
+                                        SendClient(res, { msg: "se han enviado correctamente los pedidos", oreders }, false)
 
                                     else
-                                        SendClient(res, { msg: "no se encontraron los pedidos" },false)
+                                        SendClient(res, { msg: "no se encontraron los pedidos" }, false)
                                 }
                                 else {
                                     let oreders = []
 
-                                  
+
 
                                     pedidos.forEach(pedido => {
 
@@ -472,7 +477,7 @@ export const GetPedidos = (_id_pizzeria, res) => {
                                         SendClient(res, { msg: "se han enviado correctamente los pedidos", oreders })
 
                                     else
-                                        SendClient(res, { msg: "no se encontraron los pedidos" },false)
+                                        SendClient(res, { msg: "no se encontraron los pedidos" }, false)
 
                                 }
                             })

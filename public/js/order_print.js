@@ -1,9 +1,6 @@
 function PrintElem()
 {
 
-
-
-
     if(temp.select_oreder){
         let oreder_to_print  = document.getElementById(temp.select_oreder.id)
 

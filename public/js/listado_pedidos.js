@@ -81,9 +81,9 @@ function add_pedido(datos) {
 
 function CreatePedido()
 {
-    let data = document.getElementById('ord').getElementsByTagName('article')
-
-   
+    let data = $GetElement('ord').getElementsByTagName('article')
+  
+   let text_area = $GetElement('details')
 
     let new_oreder = []
 
@@ -110,7 +110,7 @@ function CreatePedido()
             id_cliente: data_temp.clientId,
             id_Pizzeria: data_temp.pizzId,
             ids_menu:new_oreder,
-            details:document.getElementById('details').value
+            details:text_area.value
         }
         
         fetch('/pedido/create', {
@@ -130,7 +130,8 @@ function CreatePedido()
 
                     on_overlay('Hemos cargado tu pedido, puedes ver su estado en <br>"Mis Pedidos"')
 
-
+                    $GetElement('btn-show-list-order').click()
+                    text_area.value=''
                     let panels = document.getElementsByClassName('food')
                     $GetElement('ord').innerHTML = ''
                     data_temp.total = 0

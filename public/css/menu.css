@@ -69,6 +69,25 @@
   transform: translateX(-50%) rotate(315deg);
 }
 
+.triangle-close {
+    border-left: 7vmax solid white;
+    border-bottom: 7vmax solid transparent;
+    position: absolute;
+}
+
+.triangle-close::after {
+  content: 'cerrado';
+  color: red;
+  font-size: 1.5vmax;
+  text-transform: uppercase;
+  left: -4.75vmax;
+  top: 1.2vmax;
+  position: absolute;
+  text-align: center;
+  transform: translateX(-50%) rotate(315deg);
+}
+
+
 .food
 {
     display: inline-block;

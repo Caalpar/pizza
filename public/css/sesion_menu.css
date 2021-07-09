@@ -45,6 +45,7 @@
     float: right;
     text-decoration: none;
     padding: 1.5vh 2vw;
+    cursor: pointer;
 }
 .navbar a:hover{
     background-color: white;
