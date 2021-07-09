@@ -19,18 +19,24 @@ function GetPizzerias(){
             let day_text_ele = document.getElementById('days')
             let hours_text_ele = document.getElementById('hours')
 
-
+            let hours_text = ''
+            
             //let day_text =
-            let hours_text = 'abre:'+hours.morning.open +' cierra:' +hours.morning.close +' - abre:'+hours.late.open +' cierra:' +hours.late.close
+            if(hours.morning.close==hours.late.open)            
+                hours_text = 'abre:'+hours.morning.open +' cierra:' +hours.late.close
+            else            
+                hours_text = 'abre:'+hours.morning.open +' cierra:' +hours.morning.close +'  /  abre:'+hours.late.open +'  cierra:' +hours.late.close
+            
 
             hours_text_ele.innerHTML = hours_text
+            day_text_ele.innerHTML = data.hours_data.text_days
 
             let categoria = data.pizz[0].menus
             data_temp.pizzId = data.pizz[0]._id            
             categoria.forEach(menus => {
                 let new_cat = new Categoria(menus._id, menus.categoria)
                 menus.menu.forEach(m=>{
-                    let new_menu = new Menu(m._id,menus._id, './imge/'+m.img,m.titulo,m.precio,m.descripcion,m.disponibilidad)
+                    let new_menu = new Menu(m._id,menus._id, './imge/'+m.img,m.titulo,m.precio,m.descripcion,m.disponibilidad,data.hours_data.open)
                     new_cat.add_menu(new_menu)
                 })
                 menus_list.innerHTML += new_cat.get_categoria()
