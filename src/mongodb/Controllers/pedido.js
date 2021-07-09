@@ -158,21 +158,34 @@ export const GetOrederState = (_id, res) => {
         if (err) throw err
 
         if (pedido) {
-            Get_Deliverys().then(del => {
+            Get_Pizzeria(pedido.id_pizzeria).then(pizz => {
 
-                if (del) {
-                    let index_delivery = del.findIndex(m => m._id == pedido.id_delivery)
-                    let delivery = del[index_delivery]
-                    let state = pedido.state
-                    let ids_menu = pedido.ids_menu
+                let state = pedido.state
+
+                if(pizz)
+                {
+                    let open = pizz.OpenStored().open
+
+                    Get_Deliverys().then(del => {
 
 
-                    SendClient(res, { msg: "este es el estado del pedido", delivery, pedido }, false)
+
+                        if (del) {
+                            let index_delivery = del.findIndex(m => m._id == pedido.id_delivery)
+                            let delivery = del[index_delivery]
+                            
+    
+                            SendClient(res, { msg: "este es el estado del pedido", delivery, pedido,open }, false)
+                        }
+                        else {
+                            SendClient(res, { msg: "este es el estado del pedido",state,open })
+                        }
+                    })
                 }
-                else {
-                    SendClient(res, { msg: "este es el estado del pedido", delivery, state })
-                }
+                else
+                SendClient(res, { msg: "no se encontro la pizzeria"})
             })
+
         }
         else {
             SendClient(res, { msg: "no se ha encontrado el pedido" })

@@ -4,7 +4,7 @@
     bottom:3em;
     background-color: black;
     padding: 5px;
-    font-size: 3vw;
+    font-size: 3.5vw;
 }
 
 #days
@@ -16,5 +16,13 @@
 #hours
 {
     float: right;
-    right: 1vw;
+    right: -7vw;
+}
+
+
+#open-lbl
+{
+    float: right;
+    right: 2vw;
+    bottom: 14rem;
 }

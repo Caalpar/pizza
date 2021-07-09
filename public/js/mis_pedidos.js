@@ -62,7 +62,12 @@ function UpdateMyOrders(id)
                 let delivery = $GetElementsByTagName($GetElement(data.pedido._id),'span')[3]
                 let state = $GetElementsByTagName($GetElement(data.pedido._id),'span')[2]
 
-
+                let open_lbl = $GetElement('open-lbl')
+                
+                if(data.open)
+                open_lbl.innerHTML = 'Abierto'
+                else
+                open_lbl.innerHTML = 'Cerrado'
 
                 if(delivery.innerHTML == 'sin delivery')
                 SnackBar('Tu pedido va en camino')

@@ -12,6 +12,8 @@ function GetPizzerias(){
 
             let menus_list = document.getElementById('menus')
 
+            data_temp.open = data.hours_data.open 
+
             let hours_day = data.pizz[0].hours_days
             let days = hours_day.days
             let hours = hours_day.hours

@@ -7,7 +7,8 @@ let data_temp = {
     precio: [],
     total: 0,
     pizzId:null,
-    clientId:null
+    clientId:null,
+    open:true
 }
 
 
