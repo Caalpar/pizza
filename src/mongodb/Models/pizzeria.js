@@ -149,6 +149,7 @@ pizzeriaSchema.methods.OpenStored = function () {
 
     if (days_validate[current_day]) {
         open = ValidateionOpen(h_o_m, m_o_m, h_c_m, m_c_m, current_hours, current_minutes)
+        if(!open)   
         open = ValidateionOpen(h_o_l, m_o_l, h_c_l, m_c_l, current_hours, current_minutes)
     }
 

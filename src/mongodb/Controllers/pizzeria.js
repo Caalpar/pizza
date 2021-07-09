@@ -272,7 +272,7 @@ export const GetMenusAtUser = (user_data, _ids_menu, res) => {
 
 
                 if (titulo_arr.length == 1) {
-                    const titulo = '1 X ' + titulo_arr[0];
+                    const titulo = titulo_arr[0];
 
                 }
                 else {
@@ -286,15 +286,25 @@ export const GetMenusAtUser = (user_data, _ids_menu, res) => {
                             count++
 
                             if (index_next == titulo_arr.length - 1) {
+                                if(count>1)
                                 titulo += count + 'X ' + next_t
+                                else
+                                titulo += next_t
                             }
 
                         }
                         else {
+                            if(count>1)
                             titulo += count + 'X ' + current_t
+                            else
+                            titulo += current_t
+                            
                             count = 1
                             if (index_next == titulo_arr.length - 1) {
+                                if(count>1)
                                 titulo += count + 'X ' + next_t
+                                else
+                                titulo += next_t
                             }
                         }
 

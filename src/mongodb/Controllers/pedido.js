@@ -4,16 +4,16 @@ import { Get_Client, GetClientes, Get_AllClientes, AddOrederClientes, UpdateOred
 import { GetDelivery, Get_Delivery, Get_Deliverys } from './delivery'
 import { SendClient } from '../../tools/tools'
 
-let n_oreder = 0
+
 
 
 export const CreatePedido = (id_cliente, id_Pizzeria, ids_menu, details, res) => {
 
-    Pedidos.findOne({ id_cliente: id_cliente, id_Pizzeria: id_Pizzeria, ids_menu: ids_menu }, (err, pedido) => {
+    Pedidos.find({}, (err, pedidos) => {
 
         if (err) throw err
 
-        if (!pedido) {
+        if (!pedidos) {
             Get_Pizzeria(id_Pizzeria).then(pizz => {
                 if (pizz) {
 
@@ -44,11 +44,8 @@ export const CreatePedido = (id_cliente, id_Pizzeria, ids_menu, details, res) =>
                                     new_pedido.details = details
                                     new_pedido.date = new Date()
                                     new_pedido.state = 'process'
-                                    new_pedido.order_number = n_oreder
-                                    if (n_oreder == 10)
-                                        n_oreder = 0
-                                    else
-                                        n_oreder++
+                                    new_pedido.order_number = 0
+               
 
                                     new_pedido.save((err, data) => {
                                         if (err) throw err
@@ -80,7 +77,77 @@ export const CreatePedido = (id_cliente, id_Pizzeria, ids_menu, details, res) =>
 
         }
         else
-            SendClient(res, { msg: "el pedido ya esta agendado" })
+        {
+            Get_Pizzeria(id_Pizzeria).then(pizz => {
+                if (pizz) {
+
+                    Get_Client(id_cliente).then(client => {
+                        if (client) {
+
+                            if (pizz.OpenStored().open) {
+
+                                let index_m = -1
+                                let index_cat = -1
+                                pizz.menus.forEach((c, index_c) => {
+                                    if (index_m === -1) {
+                                        index_cat = index_c
+                                        ids_menu.forEach(id_menu_order => {
+                                            index_m = c.menu.findIndex(c => c._id == id_menu_order)
+                                        });
+
+
+                                    }
+                                });
+
+                                if (index_cat !== -1 && index_m !== -1) {
+                                    const new_pedido = new Pedidos()
+                                    new_pedido.id_user = id_cliente
+                                    new_pedido.id_pizzeria = id_Pizzeria
+                                    new_pedido.ids_menu = ids_menu
+                                    new_pedido.id_delivery = ''
+                                    new_pedido.details = details
+                                    new_pedido.date = new Date()
+                                    new_pedido.state = 'process'
+                                    let last_oreder = pedidos[pedidos.length-1].order_number
+
+                                    console.log(pedidos[pedidos.length-1])
+                                    if(last_oreder==100)
+                                    last_oreder = 0
+                                    else
+                                    last_oreder++
+
+                                    new_pedido.order_number = last_oreder
+ 
+
+                                    new_pedido.save((err, data) => {
+                                        if (err) throw err
+
+                                        if (data) {
+                                            let date_local = data.date.toLocaleString()
+                                            console.log(data.order_number)
+                                            AddOrederClientes(id_cliente, data._id, data.id_pizzeria, date_local, ids_menu, res)
+
+                                        }
+
+
+                                    })
+                                }
+                                else
+                                    SendClient(res, { msg: "error al crear el pedido" })
+                            }
+                            else
+                                SendClient(res, { msg: "el local esta cerrado" })
+                        }
+                        else
+                            SendClient(res, { msg: "el cliente no existe" })
+
+                    })
+                }
+                else
+                    SendClient(res, { msg: "la pizzeria no existe" })
+            })
+        }
+            
 
     })
 
@@ -209,7 +276,7 @@ export const GetPedidoFromID = (_id, res) => {
 
 
                             if (menu.length == 1) {
-                                titulo = '1 X ' + menu[0].titulo + '<br>'
+                                titulo = menu[0].titulo + '<br>'
                             }
                             else {
                                 for (let index = 0; index < menu.length - 1; index++) {
@@ -224,15 +291,24 @@ export const GetPedidoFromID = (_id, res) => {
                                         count++
 
                                         if (index_next == menu.length - 1) {
+                                            if(count>1)
                                             titulo += count + 'X ' + next_t + '<br>'
+                                            else
+                                            titulo += next_t + '<br>'
                                         }
 
                                     }
                                     else {
+                                        if(count>1)
                                         titulo += count + 'X ' + current_t + '<br>'
+                                        else
+                                        titulo += current_t + '<br>'
                                         count = 1
                                         if (index_next == menu.length - 1) {
+                                            if(count>1)
                                             titulo += count + 'X ' + next_t + '<br>'
+                                            else
+                                            titulo += next_t + '<br>'
                                         }
                                     }
 
@@ -406,7 +482,8 @@ export const GetPedidos = (_id_pizzeria, res) => {
                                                     date: pedido.date.toLocaleString(),
                                                     delivery,
                                                     n_order: pedido.order_number,
-                                                    _id: pedido._id
+                                                    _id: pedido._id,
+                                                    state: pedido.state
                                                 }
 
                                                 oreders.push(order)

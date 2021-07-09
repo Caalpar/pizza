@@ -414,16 +414,21 @@ function CreateDeliveryRow(_id,name,last_name,matricula, vehiculo) {
 
 
 
-function CreatePedidosRow(_id,n_order,date,huors,cliente, pedido, detalles, direecion, telefono, delivery, total) {
+function CreatePedidosRow(_id,n_order,date,huors,cliente, pedido, detalles, direecion, telefono, delivery,state, total) {
  
   let n_order_strig = ''
+  let stat_text = 'En Proceso'
 
   if(n_order < 10)
-  {
-    n_order_strig = '0'+n_order.toString()
-  }
+    n_order_strig = '0'+n_order.toString() 
   else
     n_order_strig = n_order.toString()
+
+  if(state == 'in coming')
+  stat_text = 'En Reparto'
+
+  if(state == 'delivered')
+  stat_text = 'Entregado'
  
   let tr = document.createElement('tr')
   let td_cliente = CreateColum(cliente)
@@ -436,6 +441,7 @@ function CreatePedidosRow(_id,n_order,date,huors,cliente, pedido, detalles, dire
   let td_date = CreateColum(date)
   let td_huors = CreateColum(huors)
   let td_n_order = CreateColum(n_order_strig)
+  let td_state = CreateColum(stat_text)
  
   tr.appendChild(td_n_order)
   tr.appendChild(td_date)
@@ -446,6 +452,7 @@ function CreatePedidosRow(_id,n_order,date,huors,cliente, pedido, detalles, dire
   tr.appendChild(td_direecion)
   tr.appendChild(td_telefono)
   tr.appendChild(td_delivery)
+  tr.appendChild(td_state)
   tr.appendChild(td_total)
   tr.style.cursor = 'pointer'
   tr.id = _id
@@ -867,9 +874,12 @@ function ShowPedidos(data) {
     let pedido_descripcion = oreder.details
 
     pedido.forEach(p=>{
-      pedido_titulo += p.count+' X '+ p.titulo +'<br>'
+      if(p.count>1)
+        pedido_titulo += p.count+' X '+ p.titulo +'<br>'
+      else
+        pedido_titulo += p.titulo +'<br>'
     })
-    //console.log(pedido_titulo)
+ 
 
   
     let fecha = oreder.date.split(' ')
@@ -879,7 +889,7 @@ function ShowPedidos(data) {
 
     let hours_string_arr = fecha[1].split(':')
     let hours_string = hours_string_arr[0]+':'+hours_string_arr[1]
-    let row = CreatePedidosRow(oreder._id,oreder.n_order,date_string,hours_string,client, pedido_titulo, pedido_descripcion, address_client, phone_client, delivery, total)
+    let row = CreatePedidosRow(oreder._id,oreder.n_order,date_string,hours_string,client, pedido_titulo, pedido_descripcion, address_client, phone_client, delivery,oreder.state, total)
     
     if(delivery == drop_del_deliverys_search || drop_del_deliverys_search == 'ALL')
     {
@@ -1049,12 +1059,12 @@ function SearchDelivery()
 
  for (let index = 0; index < tpedidos.length; index++) {
     const row = tpedidos[index];
-    search = row.cells[7].innerHTML
+    search = row.cells[8].innerHTML
     
     if(search==delivery || delivery=='ALL')
     {
       row.style.display =''
-      let total_oreder = parseFloat(row.cells[8].innerHTML.substring(1))
+      let total_oreder = parseFloat(row.cells[9].innerHTML.substring(1))
       total += total_oreder
     } 
     else
