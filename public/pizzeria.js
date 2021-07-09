@@ -81,7 +81,7 @@ function start() {
     table_oreder_tbody.id='tbody-order'
 
     table_oreder_header_colum_0.innerHTML = 'categoria'
-    table_oreder_header_colum_1.innerHTML = 'titulo'
+    table_oreder_header_colum_1.innerHTML = 'título'
     table_oreder_header_colum_2.innerHTML = 'precio'
     table_oreder_header_colum_3.innerHTML = 'disponibilidad'
     table_oreder_header_colum_4.innerHTML = 'eliminar'
@@ -111,7 +111,7 @@ function start() {
 
 
     table_new_oreder_header_colum_0.innerHTML = 'categoria'
-    table_new_oreder_header_colum_1.innerHTML = 'titulo'
+    table_new_oreder_header_colum_1.innerHTML = 'título'
     table_new_oreder_header_colum_2.innerHTML = 'precio'
     table_new_oreder_header_colum_3.innerHTML = 'disponibilidad'
     table_new_oreder_header_colum_4.innerHTML = 'agregar'
@@ -138,7 +138,7 @@ function start() {
 
     let button_new_oreder = document.createElement('button')
     button_new_oreder.type = 'submit'
-    button_new_oreder.innerHTML = 'Cerar Pedido'
+    button_new_oreder.innerHTML = 'Crear Pedido'
     button_new_oreder.setAttribute("onclick", "AddNewOreder()")
    
     

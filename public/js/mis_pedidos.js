@@ -99,6 +99,7 @@ window.addEventListener('load',function(event){
 
     setInterval(() => {
 
+
         let my_table_orders = $GetElementsByTagName(my_orders,'div')
         let my_table_orders_history = $GetElementsByTagName(my_history,'div')
 

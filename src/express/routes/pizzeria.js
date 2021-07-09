@@ -19,6 +19,12 @@ router.post('/sethoursanddays',(req,res)=>{
     SendHoursAndDaysSettings(id_pizzeria,hours_days,res)
 })
 
+router.post('/updatemenu',(req,res)=>{
+
+    let {open} = req.body
+    
+
+})
 
 router.post('/create',(req,res)=>{
     let {email,name,address,phone,user_id} = req.body

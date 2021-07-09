@@ -20,7 +20,7 @@ function PrintElem()
         <div>Dirección: ${oreder_to_print[6].innerHTML}</div>
         <div>Teléfono: ${oreder_to_print[7].innerHTML}</div>
         <div><hr/></div>
-        <div style=" font-size: 1.3em; text-align: center;">Importe: ${oreder_to_print[9].innerHTML}</div>`
+        <div style=" font-size: 1.3em; text-align: center;">Importe: ${oreder_to_print[10].innerHTML}</div>`
 
         let a = window.open('', '', 'height=500, width=500');
         a.document.write('<html>');

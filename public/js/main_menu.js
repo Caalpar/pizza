@@ -5,16 +5,25 @@ const d = document,
 
 //--------Configuracion del horario
  $settings_hours_Title = CreateElement('h4',{innerHTML:'Configuracion de Horario'})
- $settings_hours_content_morning_label = d.createElement('div')
  
- $settings_hours_label_morning = CreateElement('label',{innerHTML:'Madrugada / Mañana',style:' margin-right:30px'})
+ $settings_hours_content_noon_label = d.createElement('div')
+ $settings_hours_label_noon = CreateElement('label',{innerHTML:'Madrugada',style:' margin-right:30px'})
+ $settings_hours_content_noon = d.createElement('div')
+ $settings_hours_label_open_noon = CreateElement('label',{innerHTML:'Apertura',style:' margin-left:30px'})
+ $settings_hours_input_opne_noon = CreateElement('input',{type:'time',id:'open_noon',style:'margin-left:5px'})
+ $settings_hours_label_close_noon = CreateElement('label',{innerHTML:'Cierre',style:' margin-left:30px'})
+ $settings_hours_input_close_noon = CreateElement('input',{type:'time',id:'close_noon',style:'margin-left:5px'})
+
+
+ $settings_hours_content_morning_label = d.createElement('div')
+ $settings_hours_label_morning = CreateElement('label',{innerHTML:'Mañana',style:' margin-right:30px'})
  $settings_hours_content_morning = d.createElement('div')
  $settings_hours_label_open_morning = CreateElement('label',{innerHTML:'Apertura',style:' margin-left:30px'})
  $settings_hours_input_opne_morning = CreateElement('input',{type:'time',id:'open_moring',style:'margin-left:5px'})
  $settings_hours_label_close_morning = CreateElement('label',{innerHTML:'Cierre',style:' margin-left:30px'})
  $settings_hours_input_close_morning = CreateElement('input',{type:'time',id:'close_moring',style:'margin-left:5px'})
+ 
  $settings_hours_content_late_label = d.createElement('div')
-
  $settings_hours_label_late = CreateElement('label',{innerHTML:'Tarde / Noche',style:' margin-right:30px'})
  $settings_hours_content_late = d.createElement('div')
  $settings_hours_label_open_late = CreateElement('label',{innerHTML:'Apertura',style:' margin-left:30px'})
@@ -23,6 +32,16 @@ const d = document,
  $settings_hours_input_close_late = CreateElement('input',{type:'time',id:'close_late',style:'margin-left:5px'})
 
  $settings_hours_content.appendChild($settings_hours_Title)
+
+ $settings_hours_content_noon_label.appendChild($settings_hours_label_noon)
+
+
+ AppendChilds($settings_hours_content_noon,[$settings_hours_label_open_noon,
+  $settings_hours_input_opne_noon,
+  $settings_hours_label_close_noon,
+  $settings_hours_input_close_noon
+])
+
 
  $settings_hours_content_morning_label.appendChild($settings_hours_label_morning)
 
@@ -40,7 +59,9 @@ const d = document,
   $settings_hours_input_close_late
 ])
 
-AppendChilds($settings_hours_content,[$settings_hours_content_morning_label,
+AppendChilds($settings_hours_content,[$settings_hours_content_noon_label,
+  $settings_hours_content_noon,
+  $settings_hours_content_morning_label,
   $settings_hours_content_morning,
   $settings_hours_content_late_label,
   $settings_hours_content_late
@@ -95,6 +116,9 @@ AppendChilds($settings_hours_content,[$settings_hours_content_morning_label,
 
 function SendHoursAndDaysSettings(){
   
+  let open_noon = $settings_hours_input_opne_noon.value
+  let close_noon = $settings_hours_input_close_noon.value
+
   let open_morning = $settings_hours_input_opne_morning.value
   let close_morning = $settings_hours_input_close_morning.value
 
@@ -112,7 +136,7 @@ function SendHoursAndDaysSettings(){
 
 
   let hours_days ={days:{monday,tuesday,wedesday,thursday,friday,saturday,sunday},
-  hours:{morning:{open:open_morning,close:close_morning},late:{open:open_late,close:close_late}}
+  hours:{morning:{open:open_morning,close:close_morning},late:{open:open_late,close:close_late},noon:{open:open_noon,close:close_noon}}
   }
 
   let send_data = {hours_days,id_pizzeria}
@@ -144,6 +168,9 @@ function SetHoursAndDays(h_d)
   $settings_day_input_friday.checked = h_d.days.friday
   $settings_day_input_saturday.checked = h_d.days.saturday
   $settings_day_input_sunday.checked = h_d.days.sunday
+
+  $settings_hours_input_opne_noon.value = h_d.hours.noon.open
+  $settings_hours_input_close_noon.value = h_d.hours.noon.close
 
   $settings_hours_input_opne_morning.value = h_d.hours.morning.open
   $settings_hours_input_close_morning.value = h_d.hours.morning.close

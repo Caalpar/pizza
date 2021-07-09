@@ -24,6 +24,9 @@ function GetPizzerias(){
             let hours_text = ''
             
             //let day_text =
+
+            // a definir texto del horario
+
             if(hours.morning.close==hours.late.open)            
                 hours_text = 'abre:'+hours.morning.open +' cierra:' +hours.late.close
             else            
@@ -54,10 +57,21 @@ function GetPizzerias(){
 
 window.addEventListener('load',function(event){
     GetPizzerias()
+
+    setInterval(() => {
+        
+
+
+    }, 10000);
+
 })
 
 
+function UpdateMenu()
+{
 
+
+}
 
 function openAcordion(acordion) {
     acordion.classList.toggle("active");

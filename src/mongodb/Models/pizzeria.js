@@ -37,6 +37,11 @@ const pizzeriaSchema = new mongoose.Schema({
             sunday: Boolean
         },
         hours: {
+            
+            noon:{
+                open: String,
+                close: String
+            },          
             morning: {
                 open: String,
                 close: String
@@ -73,6 +78,9 @@ pizzeriaSchema.methods.OpenStored = function () {
     let hou_open_late = this.hours_days.hours.late.open.split(':')
     let hou_close_late = this.hours_days.hours.late.close.split(':')
 
+    let hou_open_noon = this.hours_days.hours.noon.open.split(':')
+    let hou_close_noon = this.hours_days.hours.noon.close.split(':')
+
     let h_o_m = parseInt(hou_open_morning[0])
     let m_o_m = parseInt(hou_open_morning[1])
 
@@ -84,6 +92,12 @@ pizzeriaSchema.methods.OpenStored = function () {
 
     let h_c_l = parseInt(hou_close_late[0])
     let m_c_l = parseInt(hou_close_late[1])
+
+    let h_o_n = parseInt(hou_open_noon[0])
+    let m_o_n = parseInt(hou_open_noon[1])
+
+    let h_c_n = parseInt(hou_close_noon[0])
+    let m_c_n = parseInt(hou_close_noon[1])
 
 
     const d = new Date()
@@ -148,6 +162,8 @@ pizzeriaSchema.methods.OpenStored = function () {
     console.log(open)
 
     if (days_validate[current_day]) {
+        open = ValidateionOpen(h_o_n, m_o_n, h_c_n, m_c_n, current_hours, current_minutes)
+        if(!open)  
         open = ValidateionOpen(h_o_m, m_o_m, h_c_m, m_c_m, current_hours, current_minutes)
         if(!open)   
         open = ValidateionOpen(h_o_l, m_o_l, h_c_l, m_c_l, current_hours, current_minutes)
