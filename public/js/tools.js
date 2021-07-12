@@ -8,6 +8,7 @@ let data_temp = {
     total: 0,
     pizzId:null,
     clientId:null,
+    categoria:null,
     open:true
 }
 
@@ -34,6 +35,27 @@ function SnackBar(message) {
     x.innerHTML = message
     x.className = "show-snackbar";
     setTimeout(function(){ x.className = x.className.replace("show-snackbar", ""); }, 3000);
+}
+
+function CerateMainMenu(open){
+  
+    let categoria = data_temp.categoria
+
+    if(categoria!=null)
+    {
+        console.log(categoria)
+        let menus_list = document.getElementById('menus')
+        menus_list.innerHTML = ''
+        categoria.forEach(menus => {
+            let new_cat = new Categoria(menus._id, menus.categoria)
+            menus.menu.forEach(m=>{
+                let new_menu = new Menu(m._id,menus._id, './imge/'+m.img,m.titulo,m.precio,m.descripcion,m.disponibilidad,open)
+                new_cat.add_menu(new_menu)
+            })
+            menus_list.innerHTML += new_cat.get_categoria()
+        });
+    }
+
 }
 
 

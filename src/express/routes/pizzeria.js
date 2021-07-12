@@ -1,6 +1,6 @@
 import express from 'express'
 import upload from '../../multer/index'
-import {GetPizzeria,SendHoursAndDaysSettings,CreatePizzeria,AddCategoria,EditCategoria,DeleteCategoria,AddMenu,EditMenu,DeleteMenu,GetPizzerias} from '../../mongodb/Controllers/pizzeria'
+import {GetPizzeria,GetSatatePizzerias,SendHoursAndDaysSettings,CreatePizzeria,AddCategoria,EditCategoria,DeleteCategoria,AddMenu,EditMenu,DeleteMenu,GetPizzerias} from '../../mongodb/Controllers/pizzeria'
 
 const router = express.Router();
 
@@ -19,10 +19,10 @@ router.post('/sethoursanddays',(req,res)=>{
     SendHoursAndDaysSettings(id_pizzeria,hours_days,res)
 })
 
-router.post('/updatemenu',(req,res)=>{
+router.post('/updatepizzeriastate',(req,res)=>{
 
     let {open} = req.body
-    
+    GetSatatePizzerias(open,res)
 
 })
 

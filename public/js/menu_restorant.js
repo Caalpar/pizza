@@ -37,15 +37,9 @@ function GetPizzerias(){
             day_text_ele.innerHTML = data.hours_data.text_days
 
             let categoria = data.pizz[0].menus
-            data_temp.pizzId = data.pizz[0]._id            
-            categoria.forEach(menus => {
-                let new_cat = new Categoria(menus._id, menus.categoria)
-                menus.menu.forEach(m=>{
-                    let new_menu = new Menu(m._id,menus._id, './imge/'+m.img,m.titulo,m.precio,m.descripcion,m.disponibilidad,data.hours_data.open)
-                    new_cat.add_menu(new_menu)
-                })
-                menus_list.innerHTML += new_cat.get_categoria()
-            });
+            data_temp.pizzId = data.pizz[0]._id    
+            data_temp.categoria = categoria    
+            CerateMainMenu(data.hours_data.open)    
 
         }).catch((error) => {
             console.log(error);
@@ -59,19 +53,61 @@ window.addEventListener('load',function(event){
     GetPizzerias()
 
     setInterval(() => {
-        
+        fetch('/pizzeria/updatepizzeriastate', {
+            method: 'POST',
+            body: JSON.stringify({open: data_temp.open}),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
 
+            if(Array.isArray(data.pizz))
+            {
+                let hours_day = data.pizz[0].hours_days
+                let days = hours_day.days
+                let hours = hours_day.hours
 
-    }, 10000);
+                let day_text_ele = $GetElement('days')
+                let hours_text_ele = $GetElement('hours')
+    
+                let hours_text = ''
+
+                if(hours.morning.close==hours.late.open)            
+                hours_text = 'abre:'+hours.morning.open +' cierra:' +hours.late.close
+                else            
+                hours_text = 'abre:'+hours.morning.open +' cierra:' +hours.morning.close +'  /  abre:'+hours.late.open +'  cierra:' +hours.late.close
+
+                hours_text_ele.innerHTML = hours_text
+                day_text_ele.innerHTML = data.hours_data.text_days
+
+                data_temp.open = data.hours_data.open 
+
+                    data_temp.categoria = data.pizz[0].menus
+
+                    
+                    CerateMainMenu(data_temp.open)
+                
+            }
+
+            let open_lbl = $GetElement('open-lbl')
+            if(data_temp.open)
+            open_lbl.innerHTML = 'Abierto'
+            else
+            open_lbl.innerHTML = 'Cerrado'
+
+        }).catch((error) => {
+            console.log(error);
+        })
+
+    }, 1000);
 
 })
 
 
-function UpdateMenu()
-{
 
-
-}
 
 function openAcordion(acordion) {
     acordion.classList.toggle("active");

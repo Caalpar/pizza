@@ -396,6 +396,33 @@ export const GetPizzerias = (res) => {
 
 }
 
+export const GetSatatePizzerias = (open,res) => {
+    Pizzeria.find({}, (err, pizz) => {
+        if (err) throw err
+        if (pizz) {
+            let hours_data = pizz[0].OpenStored()
+            if(hours_data.open == open)
+            SendClient(res, { msg: "el estado de la pizzeria concide con el servidor" })
+           else
+           {
+            let data = {
+                msg: "el estado de la pizzeria no concide con el servidor",
+                pizz,
+                hours_data
+            }
+            SendClient(res, data)
+           }
+
+           
+        }
+        else {
+            SendClient(res, { msg: "no se encontraron las pizzerias" })
+        }
+    })
+
+}
+
+
 export const Get_Pizzerias = (res) => {
     const pizz = Pizzeria.find({}).exec()
     return pizz
