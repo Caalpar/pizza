@@ -45,7 +45,8 @@
     position: fixed;
     bottom: 0;
     transition: 0.8s;
-    width: 99.3%;
+    width: 100%;
+    right: -0.3%;
     height: 5vh;
     border-radius: 9vw 9vw 0 0;
     border: solid 0.3vw white;
@@ -145,4 +146,6 @@ textarea{
     font-size: 100%;
     float: right;
     margin: 4vw 5vw 0 0;
+    width: 5rem;
+    padding: 1rem 0;
 }

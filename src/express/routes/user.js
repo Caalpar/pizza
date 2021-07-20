@@ -1,13 +1,13 @@
 import { resolvePreset } from '@babel/core';
 import express from 'express'
-import {CreateUser,AddPizzeriaID,ValidateUser,ValidateToken,GetAllClientes,GetClient} from '../../mongodb/Controllers/user'
+import {CreateUser,AddPizzeriaID,ValidateUser,ValidateToken,GetAllClientes,Get_AllClientes,GetClient} from '../../mongodb/Controllers/user'
 
 
 const router = express.Router();
 
 router.post('/create',(req,res)=>{
-    let {user_name,password,client,phone,address,last_name,first_name,email} = req.body
-    CreateUser(user_name,password,client,phone,address,last_name,first_name,email,res)
+    let {user_name,password,client,phone,address,neighborhood,reference,corner,last_name,first_name,email} = req.body
+    CreateUser(user_name,password,client,phone,address,neighborhood,reference,corner,last_name,first_name,email,res)
 })
 
 router.put('/addpizzeria',(req,res)=>{

@@ -456,31 +456,12 @@ function CreatePedidosRow(_id,n_order,date,huors,cliente, pedido, detalles, dire
   tr.appendChild(td_total)
   tr.style.cursor = 'pointer'
   tr.id = _id
-  tr.setAttribute('onclick','Select(this)')
+  tr.setAttribute('onclick','Select(this,"tbody-pedidos")')
 
   return tr
 }
 
-function Select(element)
-{
-  tbody = document.getElementById('tbody-pedidos').getElementsByTagName('tr')
- 
-  for (let index = 0; index < tbody.length; index++) {
-    const tr = tbody[index];
-    if(index % 2 == 0)
-    { 
-      tr.style.backgroundColor = '#f2f2f2'
-    }
-    else
-    {
-      tr.style.backgroundColor = 'white'
-    }
 
-  }
-  element.style.backgroundColor = '#ddd'
-
-  temp.select_oreder = element
-}
 
 function ModaDeliveryOreder()
 {
@@ -631,6 +612,7 @@ function CreateMenuRow(_id, categoria, titulo, descripcion, precio, disponibilid
   
   let tr = document.createElement('tr')
   tr.id = _id
+  tr.style.cursor = 'pointer'
   let disponibilidad_text = disponibilidad ? 'si' : 'no'
   let td_categoria = CreateColum(categoria)
   let td_titulo = CreateColum(titulo)
@@ -645,24 +627,13 @@ function CreateMenuRow(_id, categoria, titulo, descripcion, precio, disponibilid
   tr.appendChild(td_disponibilidad)
   tr.appendChild(td_img)
 
+  tr.setAttribute('onclick','Select(this,"tbody-menu")')
+
   return tr
 
 }
 
-function CreateColum(data, img = false) {
-  let td = document.createElement('td')
-  if (img) {
-    let imge = document.createElement('img')
-    imge.src = '/imge/' + data
-    imge.style.width = '100%'
-    imge.style.height = 'auto'
-    imge.style.maxWidth = '120px'
-    td.appendChild(imge)
-  } else {
-    td.innerHTML = data
-  }
-  return td
-}
+
 function OrderConfirm()
 {
   if(temp.select_oreder){
@@ -1064,7 +1035,7 @@ function SearchDelivery()
     if(search==delivery || delivery=='ALL')
     {
       row.style.display =''
-      let total_oreder = parseFloat(row.cells[9].innerHTML.substring(1))
+      let total_oreder = parseFloat(row.cells[10].innerHTML.substring(1))
       total += total_oreder
     } 
     else
@@ -1080,57 +1051,6 @@ function SearchDelivery()
   
 }
  
-function CreateMenu() {
-
-
-  let disponibilidad = document.getElementById('checkbox_menu_disponivilidad').checked
-  let precio = document.getElementById('inputfiled_menu_precio').value
-  let descripcion = document.getElementById('inputfiled_menu_descripcion').value
-  let titulo = document.getElementById('inputfiled_menu_titulo').value
-  let file = document.getElementById('upload_file').files[0]
-  form = new FormData()
-
-  let img = file.name.replace(/ /g, '')
-  form.append('imge', file, img)
-
-  console.log(file.name)
-
-  let menu = { disponibilidad, precio, titulo, descripcion, img }
-
-
-
-  let categoria = document.getElementById('drop_cat_menu').value
-  let _id_pizzeria = id_pizzeria
-
-  let user_data =
-  {
-    _id_pizzeria, categoria, menu
-  }
-
-  form.append('user_data', JSON.stringify(user_data))
-
-
-
-
-  fetch('/pizzeria/addmenu', {
-    method: 'POST',
-    body: form
-  })
-    .then(response => response.json())
-    .then(data => {
-
-      // on_overlay(data.msg)
-      //  window.location.href = '/' + data.link + data.user_name + '&' + data.token
-
-      console.log(data)
-      if (data.pizz)
-        ShowMenusLists(data.pizz)
-
-
-    }).catch((error) => {
-      console.log(error);
-    })
-}
 
 function CreateInputfiled(id, placeholder,type='text') {
   let inputfiled = document.createElement('input')

@@ -5,7 +5,7 @@ import {GetMenusAtUser} from './pizzeria'
 import {GetPedidoFromID} from './pedido'
 import {ObjectID}from 'mongodb'
 
-export const CreateUser = (user_name, password, client, phone, address, last_name, first_name, email, res) => {
+export const CreateUser = (user_name, password, client, phone, address,neighborhood,reference,corner, last_name, first_name, email, res) => {
 
     User.findOne({ user_name: user_name }, (err, user) => {
 
@@ -19,6 +19,9 @@ export const CreateUser = (user_name, password, client, phone, address, last_nam
             new_user.last_name = last_name
             new_user.address = address
             new_user.phone = phone
+            new_user.neighborhood = neighborhood
+            new_user.reference = reference
+            new_user.corner = corner
             new_user.password = new_user.generateHash(password)
             new_user.client = client
 
@@ -131,12 +134,12 @@ export const ValidateUser = (user_name, password, res) => {
 }
 
 export const Get_AllClientes = () => {
-    const clients = User.find({ client: true }).exec()
+    const clients = User.find({ client: true },{ __v: 0,password:0,token:0,client:0,pizzeria_id:0,my_oreders:0}).exec()
     return clients
 }
 
 export const GetAllClientes = (res) => {
-    User.find({ client: true }, { __v: 0,password:0,my_oreders:0,token:0,client:0 }, (err, users) => {
+    User.find({ client: true },{ __v: 0,password:0,token:0,client:0,pizzeria_id:0,my_oreders:0}, (err, users) => {
         if (err) throw err
         if (users)
             SendClient(res, { msg: "se encontraron los usuarios", users })
@@ -195,11 +198,9 @@ export const UpdateOrederCliente = (_id, _id_oreder,state,res) => {
 }
 
 
-
-
 export const GetClientes = () => {
-    const user = User.find({}).exec()
-    return user
+    const useres = User.find({},{ __v: 0,password:0,token:0,client:0,pizzeria_id:0,my_oreders:0}).exec()
+    return users
 }
 
 

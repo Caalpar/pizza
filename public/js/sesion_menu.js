@@ -135,6 +135,11 @@ function SingIn()
     let email =      $GetElement("email_singin").value
     let phone =      $GetElement("phone_singin").value
     let address =    $GetElement("address_singin").value
+    let neighborhood = $GetElement("neighborhood_singin").value
+    let reference  = $GetElement("reference_singin").value
+    let corner = $GetElement("corner_singin").value
+    
+    
     let password =   $GetElement("password_singin").value
     let password_repeat = $GetElement("confirm_password_singin").value
     
@@ -149,6 +154,9 @@ function SingIn()
             phone,
             address,
             password,
+            neighborhood,
+            reference,
+            corner,
             client
         }
     

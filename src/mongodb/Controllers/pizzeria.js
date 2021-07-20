@@ -176,7 +176,7 @@ export const EditMenu = (_id_pizzeria, categoria, menu, res) => {
             let cat_index = pizz.menus.findIndex(c => c.categoria == categoria)
 
             if (cat_index !== -1) {
-                let menu_index = pizz.menus[cat_index].menu.findIndex(m => m == menu)
+                let menu_index = pizz.menus[cat_index].menu.findIndex(m => m._id == menu._id)
 
                 if (menu_index !== -1) {
 

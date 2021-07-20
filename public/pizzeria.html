@@ -12,6 +12,7 @@
 <body>
   <h2>NOSTRA PIZZA</h2>
   <p>Panel de administracion</p>
+  <hr>
 
   <div class="tab">
     <button class="tablinks" onclick="openCity(event, 'Pizzeria')" id="defaultOpen">Pizzeria</button>
@@ -138,13 +139,58 @@
 
   <div id="Clientes" class="tabcontent">   
       <h3>Clientes</h3>
-       <p>Lista de deliverys.</p>
+      <div>
+        <a onclick="ModaAddClients()">Agregar Cliente</a>
+
+      </div>
+      <div>
+        <table class="table-menu" id='table-clientes'>
+          <thead>
+            <tr>
+              <th>
+                Usuario
+              </th>
+              <th>
+                Nombre
+              </th>
+              <th>
+                Apellido
+              </th>
+              <th>
+                Email
+              </th>
+              <th>
+                Telefóno
+              </th>
+              <th>
+                Dirección
+              </th>
+              <th>
+                Referencia
+              </th>
+              <th>
+                Barrio
+              </th>
+              <th>
+                Esquina
+              </th>
+            </tr>
+          </thead>
+          <tbody id='tbody-clientes'>
+  
+          </tbody>         
+        </table>
+      </div>
   </div>
   <div id="Menus" class="tabcontent">
     <h3>Menus</h3>
     <div>
       <a onclick="ModalMenu()">agregar menu</a>
+      <a onclick="ShowModalMenuEdit()">editar menu</a>
+      <a onclick="ModalCategoria()">eliminar menu</a>
       <a onclick="ModalCategoria()">agregar categoria</a>
+      <a onclick="ModalCategoria()">editar categoria</a>
+      <a onclick="ModalCategoria()">eliminar categoria</a>
     </div>
     <div>
       <table class="table-menu">
@@ -188,6 +234,7 @@
 <script src="./js/order_print.js"></script>
 <script src="./js/main_menu.js"></script>
 <script src="./js/clients.js"></script>
+<script src="./js/productos.js"></script>
 <script src="./pizzeria.js"></script>
 
 </html>
