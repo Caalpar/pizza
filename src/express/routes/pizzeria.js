@@ -57,11 +57,7 @@ router.post('/addmenu',upload.single('imge'),(req,res)=>{
 
 router.post('/editmenu',upload.single('imge'),(req,res)=>{
     
-    console.log(req.body)
-
     let{_id_pizzeria,categoria,menu} = JSON.parse(req.body.data_send) 
-    
-   
 
 
     EditMenu(_id_pizzeria,categoria,menu,res)

@@ -719,31 +719,6 @@ function CreatePizzeria(user_id) {
 
 }
 
-
-
-function ShowMenusLists(p) {
-  let tbody = document.getElementById('tbody-menu')
-  setTimeout(() => {
-    let tbody_new_oreder = document.getElementById('tbody-new-order')
-    tbody.innerHTML = ''
-    tbody_new_oreder.innerHTML = ''
-  
-    p.menus.forEach(me => {
-      if (me.menu.length > 0) {
-        me.menu.forEach(m => {
-          let tr = CreateMenuRow(m._id, me.categoria, m.titulo, m.descripcion, m.precio, m.disponibilidad, m.img)
-          let tr_new_order = CreateNewOrderRow(m._id, me.categoria, m.titulo,m.precio, m.disponibilidad)
-          
-          tbody.appendChild(tr)
-
-          tbody_new_oreder.appendChild(tr_new_order)
-        });
-      }
-    });
-  }, 2000);
-
-}
-
 function GetPedidos(id) {
   fetch('/pedido/pizzeria/' + id, {
     method: 'GET',

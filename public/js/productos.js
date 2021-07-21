@@ -19,13 +19,15 @@ function ShowModalMenuEdit() {
         if(data_ele[4].innerHTML == 'si')
             disponibilidad = true
 
+
         document.getElementById('inputfiled_menu_edit_precio').value = price
         document.getElementById('inputfiled_menu_edit_titulo').value = title
         document.getElementById('inputfiled_menu_edit_descripcion').value = description
         document.getElementById('checkbox_menu_edit_disponivilidad').checked = disponibilidad
         document.getElementById('label_edit_cat').innerHTML = 'Categoria: '+ categoria
-
-
+       
+        
+    
     }
 
     modal.style.display = 'block'
@@ -64,6 +66,14 @@ function CreateModalEditMenu() {
 
 }
 
+function ShowModalEditCat(){
+    document.getElementById('modal_cat_edit').style.display = 'block'
+}   
+
+function EditCategoria(){
+    //document.getElementById('modal_cat_edit')
+}
+
 
 function EditMenu() {
     if (temp.select_oreder_menu) {
@@ -78,12 +88,21 @@ function EditMenu() {
 
       let _id_pizzeria = localStorage.getItem('_id_pizzeria')
 
-      let file = document.getElementById('upload_edit_file').files[0]
+      let files = document.getElementById('upload_edit_file').files
+
       form = new FormData()
-    
-      let img = file.name.replace(/ /g, '')
-      form.append('imge', file, img)
-    
+      let img = ''
+
+     console.log(files.length)
+
+      if(files.length>0)
+      {
+        let file = files[0]
+        img = file.name.replace(/ /g, '')
+        form.append('imge', file, img)
+      }
+ 
+
       let menu = {
         _id,
         precio,
@@ -162,3 +181,68 @@ function CreateMenu() {
         console.log(error);
       })
   }
+
+  function ShowMenusLists(p) {
+    let tbody = document.getElementById('tbody-menu')
+    setTimeout(() => {
+      let tbody_new_oreder = document.getElementById('tbody-new-order')
+      let menu = document.getElementById('Menus')
+      let drop_cat_edit = new DropDown('drop_cat_edit')
+      let modal_cat_edit = new Modal('cat_edit')
+      tbody.innerHTML = ''
+      tbody_new_oreder.innerHTML = ''
+    
+      p.menus.forEach(me => {
+  
+        drop_cat_edit.addOption(me.categoria)
+        if (me.menu.length > 0) {
+          me.menu.forEach(m => {
+            let tr = CreateMenuRow(m._id, me.categoria, m.titulo, m.descripcion, m.precio, m.disponibilidad, m.img)
+            let tr_new_order = CreateNewOrderRow(m._id, me.categoria, m.titulo,m.precio, m.disponibilidad)
+            
+            tbody.appendChild(tr)
+  
+            tbody_new_oreder.appendChild(tr_new_order)
+          });
+        }
+      });
+
+
+      let h1_menu_edit = document.createElement('h1')
+      h1_menu_edit.innerHTML = 'Editar Categoria'
+
+      modal_cat_edit.setModalContent(h1_menu_edit)
+
+
+      modal_cat_edit.setModalContent(drop_cat_edit.getDrop())
+
+      let inputfiled_cat_edit = CreateInputfiled('inputfiled_cat_edit', 'nueva categoria')
+      modal_cat_edit.setModalContent(inputfiled_cat_edit)
+
+      let button_cat_edit = document.createElement('button')
+      button_cat_edit.type = 'submit'
+      button_cat_edit.innerHTML = 'Editar'
+      button_cat_edit.setAttribute("onclick", "EditCat()")
+
+      modal_cat_edit.setModalContent(button_cat_edit)
+
+  
+      menu.appendChild(modal_cat_edit.getModal())
+  
+  
+    }, 2000);
+  
+  }
+
+function EditCat(){
+
+  let new_cat = document.getElementById('inputfiled_cat_edit').value
+  let curent_cat = document.getElementById('drop_cat_edit').value
+
+
+  console.log (new_cat,':',curent_cat)
+}
+
+
+
+

@@ -180,6 +180,11 @@ export const EditMenu = (_id_pizzeria, categoria, menu, res) => {
 
                 if (menu_index !== -1) {
 
+                    console.log(menu)
+
+                    if(menu.img == '')
+                        menu.img = pizz.menus[cat_index].menu[menu_index].img
+
                     pizz.menus[cat_index].menu[menu_index] = menu
 
                     pizz.save((err, data) => {
