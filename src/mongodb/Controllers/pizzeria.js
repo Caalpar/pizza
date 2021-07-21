@@ -268,7 +268,7 @@ export const GetMenusAtUser = (user_data, _ids_menu, res) => {
                     if (temp != null) {
 
                         total += temp.precio
-                        let t = temp.titulo + '<br>'
+                        let t = temp.titulo + ' '
                         titulo_arr.push(t)
                     }
                 })

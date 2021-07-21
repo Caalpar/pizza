@@ -25,11 +25,12 @@ function CreateMyOrders(_id,date,title,state,delivery,price,order)
 
     let html = `
     <div id='${_id}'>
+    <span style="width:100%;text-align: left; padding-left: 3%;">${title}</span>
     <span>${date}</span>
-    <span>${title}</span>
     <span>${state}</span>
     <span>${delivery}</span>
     <span>${price}</span>
+    <hr class="hr-my-orders">
     </div>`
 
     if(order=='delivered')   

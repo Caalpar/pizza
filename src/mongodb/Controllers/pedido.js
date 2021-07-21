@@ -289,7 +289,7 @@ export const GetPedidoFromID = (_id, res) => {
 
 
                             if (menu.length == 1) {
-                                titulo = menu[0].titulo + '<br>'
+                                titulo = menu[0].titulo + ' '
                             }
                             else {
                                 for (let index = 0; index < menu.length - 1; index++) {
@@ -305,23 +305,23 @@ export const GetPedidoFromID = (_id, res) => {
 
                                         if (index_next == menu.length - 1) {
                                             if(count>1)
-                                            titulo += count + 'X ' + next_t + '<br>'
+                                            titulo += count + 'X ' + next_t + ' '
                                             else
-                                            titulo += next_t + '<br>'
+                                            titulo += next_t + ' '
                                         }
 
                                     }
                                     else {
                                         if(count>1)
-                                        titulo += count + 'X ' + current_t + '<br>'
+                                        titulo += count + 'X ' + current_t + ' '
                                         else
-                                        titulo += current_t + '<br>'
+                                        titulo += current_t + ' '
                                         count = 1
                                         if (index_next == menu.length - 1) {
                                             if(count>1)
-                                            titulo += count + 'X ' + next_t + '<br>'
+                                            titulo += count + 'X ' + next_t + ' '
                                             else
-                                            titulo += next_t + '<br>'
+                                            titulo += next_t + ' '
                                         }
                                     }
 
