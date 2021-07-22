@@ -305,23 +305,23 @@ export const GetPedidoFromID = (_id, res) => {
 
                                         if (index_next == menu.length - 1) {
                                             if(count>1)
-                                            titulo += count + 'X ' + next_t + ' '
+                                            titulo += count + 'X ' + next_t + ', '
                                             else
-                                            titulo += next_t + ' '
+                                            titulo += next_t + ', '
                                         }
 
                                     }
                                     else {
                                         if(count>1)
-                                        titulo += count + 'X ' + current_t + ' '
+                                        titulo += count + 'X ' + current_t + ', '
                                         else
-                                        titulo += current_t + ' '
+                                        titulo += current_t + ', '
                                         count = 1
                                         if (index_next == menu.length - 1) {
                                             if(count>1)
-                                            titulo += count + 'X ' + next_t + ' '
+                                            titulo += count + 'X ' + next_t + ', '
                                             else
-                                            titulo += next_t + ' '
+                                            titulo += next_t + ', '
                                         }
                                     }
 

@@ -9,8 +9,8 @@ window.addEventListener("load", function (event) {
   if (id === null) {
     CreatePizzeria(id)
     setTimeout(() => {
-      start()
-    }, 2000);
+      location.reload();
+    }, 1000);
   }
   else {
     start()
@@ -442,12 +442,18 @@ function CreatePedidosRow(_id,n_order,date,huors,cliente, pedido, detalles, dire
   let td_huors = CreateColum(huors)
   let td_n_order = CreateColum(n_order_strig)
   let td_state = CreateColum(stat_text)
- 
+
+  td_pedido.colSpan = 4
+  td_pedido.style.fontWeight = "900"
+  td_pedido.style.fontSize = "1.2rem"
+  td_pedido.style.textAlign = "left"
+
+
   tr.appendChild(td_n_order)
+  tr.appendChild(td_pedido)
   tr.appendChild(td_date)
   tr.appendChild(td_huors)
   tr.appendChild(td_cliente)
-  tr.appendChild(td_pedido)
   tr.appendChild(td_detalles)
   tr.appendChild(td_direecion)
   tr.appendChild(td_telefono)
@@ -701,7 +707,7 @@ function CreatePizzeria(user_id) {
       
      setInterval(() => {
         GetPedidos(data.pizz._id)
-       }, 10000);
+       }, 100000);
  
      
 
@@ -821,9 +827,9 @@ function ShowPedidos(data) {
 
     pedido.forEach(p=>{
       if(p.count>1)
-        pedido_titulo += p.count+' X '+ p.titulo +'<br>'
+        pedido_titulo += p.count+' X '+ p.titulo +', '
       else
-        pedido_titulo += p.titulo +'<br>'
+        pedido_titulo += p.titulo +', '
     })
  
 

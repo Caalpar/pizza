@@ -123,7 +123,7 @@ function EditMenu() {
       })
         .then(response => response.json())
         .then(data => {        
-          console.log(data)
+          location.reload();
 
         }).catch((error) => {
           console.log(error);
@@ -194,7 +194,8 @@ function CreateMenu() {
     
       p.menus.forEach(me => {
   
-        drop_cat_edit.addOption(me.categoria)
+        console.log(me)
+        drop_cat_edit.addOption(me.categoria,me._id)
         if (me.menu.length > 0) {
           me.menu.forEach(m => {
             let tr = CreateMenuRow(m._id, me.categoria, m.titulo, m.descripcion, m.precio, m.disponibilidad, m.img)
@@ -236,11 +237,31 @@ function CreateMenu() {
 
 function EditCat(){
 
-  let new_cat = document.getElementById('inputfiled_cat_edit').value
-  let curent_cat = document.getElementById('drop_cat_edit').value
+  let categoria = document.getElementById('inputfiled_cat_edit').value
+  let _id_cat = document.getElementById('drop_cat_edit').value
+  let _id_pizzeria = localStorage.getItem('_id_pizzeria') 
+  
+  let send_data = {categoria,_id_cat,_id_pizzeria}
+
+  fetch('/pizzeria/editcategoria', {
+    method: 'POST',
+    body: JSON.stringify(send_data),
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    }
+  })
+    .then(response => response.json())
+    .then(data => {
+
+      location.reload();
+      console.log(data)
+
+    }).catch((error) => {
+      console.log(error);
+    })
 
 
-  console.log (new_cat,':',curent_cat)
 }
 
 

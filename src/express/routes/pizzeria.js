@@ -37,9 +37,11 @@ router.post('/addcategoria',(req,res)=>{
     AddCategoria(_id_pizzeria,categoria,res)
 })
 
-router.put('/editcategoria',(req,res)=>{
-    let{_id_pizzeria,categoria,color} = req.body
-    EditCategoria(_id_pizzeria,categoria,color,res)
+router.post('/editcategoria',(req,res)=>{
+    let{_id_pizzeria,_id_cat,categoria} = req.body
+
+    console.log(_id_pizzeria,_id_cat,categoria)
+    EditCategoria(_id_pizzeria,_id_cat, categoria, res)
 })
 
 router.delete('/deletecategoria',(req,res)=>{

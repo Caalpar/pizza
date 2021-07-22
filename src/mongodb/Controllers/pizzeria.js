@@ -82,18 +82,17 @@ export const AddCategoria = (_id_pizzeria, categoria, res) => {
         }
     })
 }
-export const EditCategoria = (_id_pizzeria, categoria, color, res) => {
+export const EditCategoria = (_id_pizzeria,_id_cat, categoria, res) => {
 
     Pizzeria.findOne({ _id: _id_pizzeria }, (err, pizz) => {
 
         if (err) throw err
 
         if (pizz) {
-            let index_cat = pizz.menus.findIndex(c => c.categoria === categoria)
+            let index_cat = pizz.menus.findIndex(c => c._id == _id_cat)
 
             if (index_cat !== -1) {
                 pizz.menus[index_cat].categoria = categoria
-                pizz.menus[index_cat].color_categoria = color
 
                 pizz.save((err, data) => {
                     if (err) throw err
@@ -268,7 +267,7 @@ export const GetMenusAtUser = (user_data, _ids_menu, res) => {
                     if (temp != null) {
 
                         total += temp.precio
-                        let t = temp.titulo + ' '
+                        let t = temp.titulo + ', '
                         titulo_arr.push(t)
                     }
                 })
