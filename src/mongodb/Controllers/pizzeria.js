@@ -406,7 +406,7 @@ export const GetSatatePizzerias = (open,res) => {
         if (pizz) {
             let hours_data = pizz[0].OpenStored()
             if(hours_data.open == open)
-            SendClient(res, { msg: "el estado de la pizzeria concide con el servidor" })
+            SendClient(res, { msg: "el estado de la pizzeria concide con el servidor" },false)
            else
            {
             let data = {

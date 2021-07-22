@@ -159,7 +159,6 @@ pizzeriaSchema.methods.OpenStored = function () {
 
     }
 
-    console.log(open)
 
     if (days_validate[current_day]) {
         open = ValidateionOpen(h_o_n, m_o_n, h_c_n, m_c_n, current_hours, current_minutes)
@@ -180,14 +179,6 @@ pizzeriaSchema.methods.OpenStored = function () {
 
     if (last_day && early_morning && (!days_validate[current_day]))
         open = ValidateionOpen(h_o_m, m_o_m, h_c_m, m_c_m, current_hours, current_minutes)
-
-       
-    console.log(`
-    current_hours: ${current_hours}:${current_minutes}    
-    open_moirning: ${h_o_m}:${m_o_m} - ${h_c_m}:${m_c_m}  
-    open_late: ${h_o_l}:${m_o_l} - ${h_c_l}:${m_c_l}
-    open: ${open}
-    `)
 
     return { open, text_days }
 }

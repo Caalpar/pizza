@@ -5,7 +5,6 @@
     padding: 0 !important;
     width: 49.6% !important;
     background-color: #7e7e80 !important; 
-    border-radius: 0 !important;
     border: none !important;
 } 
 
@@ -23,6 +22,7 @@
 
 .my-orders-content span{
     background-color: #7e7e80;
+
 }
 
 .my-orders-content span, .history-content span
@@ -32,6 +32,8 @@
     padding: 1vh 0;
     height: 3vh;
     overflow-x: auto;
+    border: none;
+   
 }
 
 .hr-my-orders{
