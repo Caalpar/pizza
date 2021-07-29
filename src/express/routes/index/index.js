@@ -1,7 +1,6 @@
 import express from 'express'
 const router = express.Router();
 
-
 router.use('/delivery', require('../delivery'));
 
 router.use('/pizzeria', require('../pizzeria'));

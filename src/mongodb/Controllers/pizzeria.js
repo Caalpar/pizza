@@ -1,5 +1,5 @@
 import Pizzeria from '../Models/pizzeria'
-import { SendClient } from '../../tools/tools'
+import { SendClient ,DeleteImg} from '../../tools/tools'
 
 export const CreatePizzeria = (email, name, address, phone, user_id, res) => {
 
@@ -117,6 +117,11 @@ export const DeleteCategoria = (_id_pizzeria, categoria, res) => {
             let index_cat = pizz.menus.findIndex(c => c.categoria === categoria)
 
             if (index_cat !== -1) {
+
+                pizz.menus[index_cat].menu.forEach(m => {
+                    DeleteImg(m.img)
+                });
+
                 pizz.menus.splice(index_cat, 1)
 
                 pizz.save((err, data) => {
@@ -183,6 +188,11 @@ export const EditMenu = (_id_pizzeria, categoria, menu, res) => {
 
                     if(menu.img == '')
                         menu.img = pizz.menus[cat_index].menu[menu_index].img
+                    else if(menu.img != pizz.menus[cat_index].menu[menu_index].img)                       
+                    {
+                        DeleteImg(pizz.menus[cat_index].menu[menu_index].img)
+                    }
+
 
                     pizz.menus[cat_index].menu[menu_index] = menu
 
@@ -328,17 +338,18 @@ export const GetMenusAtUser = (user_data, _ids_menu, res) => {
     })
 }
 
-export const DeleteMenu = (_id_pizzeria, categoria, menu, res) => {
+export const DeleteMenu = (_id_menu, _id_pizzeria,categoria, res) => {
     Pizzeria.findOne({ _id: _id_pizzeria }, (err, pizz) => {
         if (err) throw err
         if (pizz) {
             let cat_index = pizz.menus.findIndex(c => c.categoria == categoria)
 
             if (cat_index !== -1) {
-                let menu_index = pizz.menus[cat_index].menu.findIndex(m => m == menu)
+                let menu_index = pizz.menus[cat_index].menu.findIndex(m => m._id == _id_menu)
 
                 if (menu_index !== -1) {
 
+                    DeleteImg(pizz.menus[cat_index].menu[menu_index].img)
                     pizz.menus[cat_index].menu.splice(menu_index, 1)
 
                     pizz.save((err, data) => {

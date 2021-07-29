@@ -45,8 +45,8 @@ router.post('/editcategoria',(req,res)=>{
 })
 
 router.delete('/deletecategoria',(req,res)=>{
-    let{_id_pizzeria,categoria,menu} = req.body
-    DeleteCategoria(_id_pizzeria,categoria,menu,res)
+    let{_id_pizzeria,categoria} = req.body
+    DeleteCategoria(_id_pizzeria,categoria,res)
 })
 
 
@@ -66,8 +66,8 @@ router.post('/editmenu',upload.single('imge'),(req,res)=>{
 })
 
 router.delete('/deletemenu',(req,res)=>{
-    let{_id_pizzeria,categoria,menu} = req.body
-    DeleteMenu(_id_pizzeria,categoria,menu,res)
+    let{_id, _id_pizzeria,categoria} = req.body
+    DeleteMenu(_id, _id_pizzeria,categoria,res)
 })
 
 
