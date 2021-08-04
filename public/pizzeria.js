@@ -414,10 +414,11 @@ function CreateDeliveryRow(_id,name,last_name,matricula, vehiculo) {
 
 
 
-function CreatePedidosRow(_id,n_order,date,huors,cliente, pedido, detalles, direecion, telefono, delivery,state, total) {
+function CreatePedidosRow(_id,n_order,date,huors,cliente, pedido, detalles, direecion, telefono, delivery,state, total,menus) {
  
   let n_order_strig = ''
   let stat_text = 'En Proceso'
+
 
   if(n_order < 10)
     n_order_strig = '0'+n_order.toString() 
@@ -442,6 +443,17 @@ function CreatePedidosRow(_id,n_order,date,huors,cliente, pedido, detalles, dire
   let td_huors = CreateColum(huors)
   let td_n_order = CreateColum(n_order_strig)
   let td_state = CreateColum(stat_text)
+
+  if(menus.length>0)
+  {
+    for (let index = 0; index < menus.length; index++) {
+      const menu = menus[index];
+      const current_price = menu.menu.precio
+      const id = 'menu-'+menu.menu._id
+      td_pedido.setAttribute(id,current_price)
+    }    
+
+  }
 
   td_pedido.colSpan = 4
   td_pedido.style.fontWeight = "900"
@@ -841,7 +853,7 @@ function ShowPedidos(data) {
 
     let hours_string_arr = fecha[1].split(':')
     let hours_string = hours_string_arr[0]+':'+hours_string_arr[1]
-    let row = CreatePedidosRow(oreder._id,oreder.n_order,date_string,hours_string,client, pedido_titulo, pedido_descripcion, address_client, phone_client, delivery,oreder.state, total)
+    let row = CreatePedidosRow(oreder._id,oreder.n_order,date_string,hours_string,client, pedido_titulo, pedido_descripcion, address_client, phone_client, delivery,oreder.state, total,oreder.menu)
     
     if(delivery == drop_del_deliverys_search || drop_del_deliverys_search == 'ALL')
     {

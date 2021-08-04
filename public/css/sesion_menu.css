@@ -166,16 +166,16 @@ img{
 }
 
 
-
+.user a 
+{
+    display: block;
+}
 
 [class*="open-"] #sesion_login a, [class*="open-"] #sesion_user:not(.no-display), [class*="open-"] #sesion_user a {
     display: block;
   }
 
-.user a 
-{
-    display: block;
-}
+
 
 .open-40
 {
