@@ -192,7 +192,7 @@ export const UpdateOrederCliente = (_id, _id_oreder,state,res) => {
         }
     },(err,data)=>{
         if(data)
-        console.log(data)
+        SendClient(res, { msg: "se ha confirmado el pedido"})
 
     })    
 }

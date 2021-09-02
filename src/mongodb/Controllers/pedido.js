@@ -5,8 +5,6 @@ import { GetDelivery, Get_Delivery, Get_Deliverys } from './delivery'
 import { SendClient } from '../../tools/tools'
 
 
-
-
 export const CreatePedido = (id_cliente, id_Pizzeria, ids_menu, details, res) => {
 
     Pedidos.find({}, (err, pedidos) => {
@@ -44,6 +42,7 @@ export const CreatePedido = (id_cliente, id_Pizzeria, ids_menu, details, res) =>
                                     new_pedido.details = details
                                     new_pedido.date = new Date()
                                     new_pedido.state = 'process'
+                                    new_pedido.cancel = false
                                     new_pedido.order_number = 0
                
 
@@ -193,7 +192,6 @@ export const GetOrederState = (_id, res) => {
     })
 }
 
-
 export const AddDelivery = (_id, _id_delivery, res) => {
 
 
@@ -202,18 +200,27 @@ export const AddDelivery = (_id, _id_delivery, res) => {
         if (err) throw err
 
         if (pedido) {
-            pedido.id_delivery = _id_delivery
-            pedido.state = 'in coming'
 
-            pedido.save((err, data) => {
-                if (err) throw err
+            if(pedido.state!="delivered" && pedido.state!="cancel")
+            {
+                pedido.id_delivery = _id_delivery
+                pedido.state = 'in coming'
+    
+                pedido.save((err, data) => {
+                    if (err) throw err
+    
+                    if (data) {
+                        SendClient(res, { msg: "se agrrego correctamente el delivery al pedido" })
+                    }
+                    else
+                        SendClient(res, { msg: "se agrrego correctamente el delivery al pedido" })
+                })
+            } 
+            else
+            {
+                SendClient(res, { msg: "no se puede enviar un pedido cancelado o entregado" })
+            }
 
-                if (data) {
-                    SendClient(res, { msg: "se agrrego correctamente el delivery al pedido" })
-                }
-                else
-                    SendClient(res, { msg: "se agrrego correctamente el delivery al pedido" })
-            })
         }
     })
 }
@@ -226,19 +233,32 @@ export const ConfirmOrder = (_id, res) => {
         if (err) throw err
 
         if (pedido) {
-            pedido.state = 'delivered'
 
-            pedido.save((err, data) => {
-                if (err) throw err
+            if(pedido.state == 'in coming')
+            {
+                pedido.state = 'delivered'
 
-                if (data) {
-
-                    UpdateOrederCliente(data.id_user, data._id, data.state, res)
-                }
-                else
-                    SendClient(res, { msg: "no se a podido confirmar el pedido" })
-            })
+                pedido.save((err, data) => {
+                    if (err) throw err
+    
+                    if (data) {
+    
+                        UpdateOrederCliente(data.id_user, data._id, data.state, res)
+                    }
+                    else
+                        SendClient(res, { msg: "no se a podido confirmar el pedido" })
+                })
+            }
+            else
+            {
+                SendClient(res, { msg: "el pedido no se puede confirmar en este estado" })
+            }
         }
+        else
+        {
+            SendClient(res, { msg: "no se ha encontrado el pedido" })
+        }
+
     })
 }
 
@@ -247,8 +267,6 @@ export const GetPedidoFromID = (_id, res) => {
     Pedidos.findOne({ _id: _id }, (err, pedido) => {
         if (err) throw err
         if (pedido) {
-
-
             Get_Pizzeria(pedido.id_pizzeria).then(pizz => {
                 if (pizz) {
                     Get_Client(pedido.id_user).then(client => {
@@ -579,3 +597,51 @@ export const GetPedidos = (_id_pizzeria, res) => {
     }).sort('-date').limit(500)
 }
 
+export const CancelPedido = (_id,res) =>{
+    Pedidos.findOne({_id:_id},(err,pedido)=>{
+        if(err) throw err
+
+        if(pedido)
+        {
+            if(pedido.state == "process")
+            {
+                pedido.state = 'cancel'
+
+                pedido.save((err,data)=>{
+                    if(err) throw err
+    
+                    if(data)
+                        SendClient(res, { msg: "el pedido fue cancelado correctamente" })     
+                })
+            }
+            else
+            {   
+                SendClient(res, { msg: "no se puede cancelar un pedio que esta en camino o confirmado" }) 
+            }
+
+        }
+        else
+        {
+            SendClient(res, { msg: "no se ha encontrado el pedido" })
+        }
+    })
+}
+
+export const EditPedido = (_id,ids_menu,details,res) =>{
+    Pedidos.findOne({_id:_id},(err,pedido)=>{
+        if(err) throw err
+
+        if(pedido)
+        {
+
+            pedido.ids_menu = ids_menu
+            pedido.details = details
+            pedido.save((err,data)=>{
+                if(err) throw err
+
+                if(data)
+                    SendClient(res, { msg: "el pedido fue modificado correctamente" })     
+            })
+        }
+    })
+}

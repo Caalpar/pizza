@@ -216,6 +216,42 @@ export const EditMenu = (_id_pizzeria, categoria, menu, res) => {
     })
 }
 
+export const SetPortada = (_id_pizzeria, categoria,menu, res) => {
+    Pizzeria.findOne({ _id: _id_pizzeria }, (err, pizz) => {
+        if (err) throw err
+        if (pizz) {
+            let cat_index = pizz.menus.findIndex(c => c.categoria == categoria)
+
+            if (cat_index !== -1) {
+                let menu_index = pizz.menus[cat_index].menu.findIndex(m => m._id == menu._id)
+
+                if (menu_index !== -1) {
+
+                    pizz.menus.forEach(car=>{
+                        car.menu.forEach(m=>{
+                            m.portada = false
+                        })
+                    })
+
+                    pizz.menus[cat_index].menu[menu_index].portada = true
+
+                    pizz.save((err, data) => {
+                        if (err) throw err
+
+                        if (data) {
+                            SendClient(res, { msg: "el menu fue actualizado correctamente" })
+                        }
+                    })
+                }
+                else 
+                    SendClient(res, { msg: "el menu no existe" })                
+            }
+            else 
+                SendClient(res, { msg: "la categoria ingresada no existe" })            
+        }
+    })
+}
+
 export const GetMenusAtUser = (user_data, _ids_menu, res) => {
     Pizzeria.find({}, (err, pizz) => {
         if (err) throw err
@@ -258,7 +294,6 @@ export const GetMenusAtUser = (user_data, _ids_menu, res) => {
             user_data.orders.forEach(o => {
 
                 let total = 0
-                console.log(o)
                 let _id = o._id_oreder
                 let titulo_arr = []
                 let count = 1
@@ -282,12 +317,13 @@ export const GetMenusAtUser = (user_data, _ids_menu, res) => {
                     }
                 })
 
-
+             
 
 
                 if (titulo_arr.length == 1) {
-                    const titulo = titulo_arr[0];
-
+                    titulo = titulo_arr[0];
+                    console.log('titulo_arr')
+                    console.log(titulo_arr)
                 }
                 else {
 
@@ -331,7 +367,7 @@ export const GetMenusAtUser = (user_data, _ids_menu, res) => {
                 oreders.push({ total, titulo, date, state, _id })
 
             })
-
+           
 
             SendClient(res, { msg: "Bienvenido", user_data, oreders })
         }
@@ -443,7 +479,6 @@ export const Get_Pizzerias = (res) => {
     return pizz
 
 }
-
 
 export const SendHoursAndDaysSettings = (_id, hours_days, res) => {
 

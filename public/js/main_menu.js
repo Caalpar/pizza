@@ -152,7 +152,7 @@ function SendHoursAndDaysSettings(){
   })
     .then(response => response.json())
     .then(data => {
-       console.log(data)  
+       alert(data.msg)  
     }).catch((error) => {
       console.log(error);
     })

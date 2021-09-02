@@ -1,28 +1,50 @@
 .hours-days
 {
     position: relative;
-    bottom:3em;
+    /* bottom:3em; */
+    display: inline;
     background-color: black;
-    padding: 5px;
+    padding: 1vw;
     font-size: 3.5vw;
 }
 
 #days
 {
-    float: left;
-    left: 1vw;
+    right: -21.8em;
+    bottom: 6.9em;
 }
 
 #hours
 {
-    float: right;
-    right: -7vw;
+    bottom: 2.6em;
 }
 
 
 #open-lbl
 {
-    float: right;
-    right: 2vw;
-    bottom: 14rem;
+    right: -12.1rem;
+    bottom: 13.5rem;
+}
+
+#portada-title
+{
+    right: -1vw;
+    bottom: 13.5rem;
+}
+
+#portada-des
+{
+    right: 14.8vw;
+    bottom: 11.2rem;
+}
+
+#portada-btn-agregar
+{
+    position: relative;
+    background-color: #a37773;
+    padding: 2%;
+    font-size: 1.2em;
+    border-radius: 5%;
+    top: -4.7rem;
+    left: -4.5rem;
 }

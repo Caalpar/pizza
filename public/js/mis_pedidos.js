@@ -53,12 +53,18 @@ function UpdateMyOrders(id)
         .then(response => response.json())
         .then(data => {
             
+            let state = $GetElementsByTagName($GetElement(data.pedido._id),'span')[2]
+
+            let state_text  = 'sin delivery'
+
 
             if(data.delivery)
             {                
 
+                state_text  = 'En camino'
+
                 let delivery = $GetElementsByTagName($GetElement(data.pedido._id),'span')[3]
-                let state = $GetElementsByTagName($GetElement(data.pedido._id),'span')[2]
+            
 
 
                 if(delivery.innerHTML == 'sin delivery')
@@ -66,19 +72,17 @@ function UpdateMyOrders(id)
 
                 let name = data.delivery._name+' '+data.delivery.last_name
                 
-
-                let state_text  = 'En camino'
-
                 if(data.pedido.state=="delivered")                   
-                    state_text = "Entregado"
-                
-                    
-                
-                state.innerHTML = state_text
+                state_text = "Entregado"
+
                 delivery.innerHTML = name
             }
 
-        
+                        
+            if(data.pedido.state=="cancel")        
+                state_text = "Cancelado"
+
+            state.innerHTML = state_text
             
         }).catch((error) => {
             console.log(error);

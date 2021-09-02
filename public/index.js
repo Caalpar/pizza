@@ -16,7 +16,10 @@ window.addEventListener("load", function (event) {
 
     let mobile = window.matchMedia("(max-width: 800px)")
     if (mobile.matches)
-         window.location.href = '/mobile.html'
+    {
+        window.location.href = '/mobile.html'
+    }
+         
 
 
 

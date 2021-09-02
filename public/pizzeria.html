@@ -15,11 +15,11 @@
   <hr>
 
   <div class="tab">
-    <button class="tablinks" onclick="openCity(event, 'Pizzeria')" id="defaultOpen">Pizzeria</button>
-    <button class="tablinks" onclick="openCity(event, 'Pedidos')" id="defaultOpen">Pedidos</button>
-    <button class="tablinks" onclick="openCity(event, 'Deliverys')">Deliverys</button>
-    <button class="tablinks" onclick="openCity(event, 'Clientes')">Clientes</button>
-    <button class="tablinks" onclick="openCity(event, 'Menus')">Menus</button>
+    <button class="tablinks" onclick="openCity(event, 'Pizzeria',this)" id="open-pizzeria">Pizzeria</button>
+    <button class="tablinks" onclick="openCity(event, 'Pedidos',this)" id="open-pedidos">Pedidos</button>
+    <button class="tablinks" onclick="openCity(event, 'Deliverys',this)" id="open-deliverys">Deliverys</button>
+    <button class="tablinks" onclick="openCity(event, 'Clientes',this)" id="open-clientes">Clientes</button>
+    <button class="tablinks" onclick="openCity(event, 'Menus',this)" id="open-menus">Menus</button>
   </div>
 
   <div id="Pizzeria" class="tabcontent">
@@ -29,12 +29,17 @@
 
   <div id="Pedidos" class="tabcontent">
       <h3>Pedidos</h3>
+      <div>
+        <label for="">Buscar pedidos por delivery</label><samp id='dropdown-delivery-search' style="padding: 16px;"></samp>
+      </div>
     <div>
-      <a onclick="ModaAddOreder()">agregar pedido</a>
-      <a onclick="ModaDeliveryOreder()">agregar delivery</a>
-      <a onclick="OrderConfirm()">confirmar pedido</a>
-      <label for="">Buscar pedidos por delivery</label><samp id='dropdown-delivery-search' style="padding: 16px;"></samp>
-      <a onclick="PrintElem()">imprimir pedido</a>
+      <button onclick="ModaAddOreder()">agregar pedido</button>
+      <button onclick="ModalEditOreder()">modificar pedido</button>
+      <button onclick="ModaDeliveryOreder()">agregar delivery</button>
+      <button onclick="OrderConfirm()">confirmar pedido</button>
+      
+      <button onclick="PrintElem()">imprimir pedido</button>
+      <button onclick="CancelOrder()">cancelar pedido</button>
     </div>
     <div>
       <table class="table-menu" id='table-pedidos'>
@@ -110,7 +115,7 @@
   <div id="Deliverys" class="tabcontent">
     <h3>Deliverys</h3>
     <div>
-      <a onclick="ModaDelivery()">agregar delivery</a>
+      <button onclick="ModaDelivery()">agregar delivery</button>
     </div>
     <div>
       <table class="table-menu">
@@ -140,7 +145,7 @@
   <div id="Clientes" class="tabcontent">   
       <h3>Clientes</h3>
       <div>
-        <a onclick="ModaAddClients()">Agregar Cliente</a>
+        <button onclick="ModaAddClients()">Agregar Cliente</button>
 
       </div>
       <div>
@@ -185,12 +190,12 @@
   <div id="Menus" class="tabcontent">
     <h3>Menus</h3>
     <div>
-      <a onclick="ModalMenu()">agregar menu</a>
-      <a onclick="ShowModalMenuEdit()">editar menu</a>
-      <!-- <a onclick="DeleteMenu()">eliminar menu</a> -->
-      <a onclick="ModalCategoria()">agregar categoria</a>
-      <a onclick="ShowModalEditCat()">editar categoria</a>
-      <!-- <a onclick="ShowModaleDeleteCat()">eliminar categoria</a> -->
+      <button onclick="ModalMenu()">agregar menu</button>
+      <button onclick="ShowModalMenuEdit()">editar menu</button>
+      <!-- <button onclick="DeleteMenu()">eliminar menu</button> -->
+      <button onclick="ModalCategoria()">agregar categoria</button>
+      <button onclick="ShowModalEditCat()">editar categoria</button>
+      <!-- <button onclick="ShowModaleDeleteCat()">eliminar categoria</button> -->
     </div>
     <div>
       <table class="table-menu">
@@ -214,6 +219,9 @@
             <th>
               imagen
             </th>
+            <th>
+              portada
+            </th>
           </tr>
         </thead>
         <tbody id='tbody-menu'>
@@ -231,6 +239,7 @@
 <script src="./js/golbal.js"></script>
 <script src="./js/DropDown.js"></script>
 <script src="./js/Modal.js"></script>
+<script src="./js/modal_edit_order.js"></script>
 <script src="./js/order_print.js"></script>
 <script src="./js/main_menu.js"></script>
 <script src="./js/clients.js"></script>

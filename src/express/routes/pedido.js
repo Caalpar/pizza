@@ -1,5 +1,5 @@
 import express from 'express'
-import {ConfirmOrder,CreatePedido,AddDelivery,GetPedidoFromID,GetPedidosFromDelivery,GetPedidos,GetOrederState} from '../../mongodb/Controllers/pedido'
+import {ConfirmOrder,CreatePedido,AddDelivery,GetPedidoFromID,GetPedidosFromDelivery,GetPedidos,GetOrederState,CancelPedido,EditPedido} from '../../mongodb/Controllers/pedido'
 const router = express.Router();
 
 router.post('/create',(req,res)=>{
@@ -17,9 +17,19 @@ router.post('/orderconfirm',(req,res)=>{
     ConfirmOrder(_id,res)
 })
 
+router.post('/cancel',(req,res)=>{
+    let {_id} = req.body
+    CancelPedido(_id,res)
+})
+
 router.get('/:id',(req,res)=>{
     let id =  req.params.id
     GetOrederState(id,res)
+})
+
+router.post('/edit',(req,res)=>{
+    let {_id,ids_menu,details} = req.body
+    EditPedido(_id,ids_menu,details,res)
 })
 
 router.get('/delivery/:id',(req,res)=>{

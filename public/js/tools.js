@@ -9,7 +9,8 @@ let data_temp = {
     pizzId:null,
     clientId:null,
     categoria:null,
-    open:true
+    open:true,
+    
 }
 
 
@@ -49,6 +50,8 @@ function CerateMainMenu(open){
         categoria.forEach(menus => {
             let new_cat = new Categoria(menus._id, menus.categoria)
             menus.menu.forEach(m=>{
+                if(m.portada)
+                    SetPortada(m,menus._id)
                 let new_menu = new Menu(m._id,menus._id, './imge/'+m.img,m.titulo,m.precio,m.descripcion,m.disponibilidad,open)
                 new_cat.add_menu(new_menu)
             })
@@ -56,6 +59,35 @@ function CerateMainMenu(open){
         });
     }
 
+}
+
+function SetPortada(menu,cat_id){
+  
+   // menu_6112adf0f5360f16d878fcaa_6112ade5f5360f16d878fca9 
+    let id_menu_portada = 'menu_'+menu._id+'_'+cat_id
+    let portada = $GetElement('portada-img')
+    portada.setAttribute('menu-id-portada',id_menu_portada)
+    let title = $GetElement('portada-title')
+    let des = $GetElement('portada-des')
+    let {img,precio,titulo} = menu
+    let url_imge = './imge/'+img
+
+    console.log(portada)
+    
+    title.innerHTML = "OFERTA DE HOY"
+    des.innerHTML = titulo +' $'+precio
+    portada.style.backgroundImage = `url(${url_imge})`
+
+}
+
+function AddMenuPortadaToOrder()
+{
+    let portada = $GetElement('portada-img')
+    let id_menu_portada = portada.getAttribute('menu-id-portada')
+    console.log(id_menu_portada)
+
+    $GetElement(id_menu_portada).click()
+    $GetElement('btn-show-list-order').click()
 }
 
 

@@ -160,6 +160,11 @@ function CreatePedido()
                         if(o.state == 'delivered')
                         state_text = 'entregado'
 
+                        if(o.state == 'cancel')
+                        state_text = 'cancelado'
+
+                        console.log(o.titulo)
+
                         CreateMyOrders(o._id,date,o.titulo,state_text,'sin delivery','$'+o.total,o.state)
 
                     })

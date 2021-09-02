@@ -13,5 +13,10 @@ class DropDown {
     getDrop() {
       return this.dropdown
     }
+
+    setClass(cla){
+      this.dropdown.classList.add(cla)
+    }
+
   }
   

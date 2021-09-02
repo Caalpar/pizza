@@ -1,6 +1,6 @@
 import express from 'express'
 import upload from '../../multer/index'
-import {GetPizzeria,GetSatatePizzerias,SendHoursAndDaysSettings,CreatePizzeria,AddCategoria,EditCategoria,DeleteCategoria,AddMenu,EditMenu,DeleteMenu,GetPizzerias} from '../../mongodb/Controllers/pizzeria'
+import {GetPizzeria,GetSatatePizzerias,SendHoursAndDaysSettings,CreatePizzeria,AddCategoria,EditCategoria,DeleteCategoria,AddMenu,EditMenu,DeleteMenu,GetPizzerias,SetPortada} from '../../mongodb/Controllers/pizzeria'
 
 const router = express.Router();
 
@@ -13,17 +13,14 @@ router.get('/pizzrias',(req,res)=>{
     GetPizzerias(res)
 })
 
-
 router.post('/sethoursanddays',(req,res)=>{
     let {id_pizzeria,hours_days} = req.body
     SendHoursAndDaysSettings(id_pizzeria,hours_days,res)
 })
 
 router.post('/updatepizzeriastate',(req,res)=>{
-
     let {open} = req.body
     GetSatatePizzerias(open,res)
-
 })
 
 router.post('/create',(req,res)=>{
@@ -63,6 +60,14 @@ router.post('/editmenu',upload.single('imge'),(req,res)=>{
 
 
     EditMenu(_id_pizzeria,categoria,menu,res)
+})
+
+router.post('/setportada',(req,res)=>{
+    
+    console.log(req.body)
+    let{_id_pizzeria,categoria,menu} = req.body 
+    SetPortada(_id_pizzeria,categoria,menu,res)
+
 })
 
 router.delete('/deletemenu',(req,res)=>{

@@ -7,6 +7,7 @@ const menuSchema = new mongoose.Schema({
     titulo: String,
     img: String,
     disponibilidad: Boolean,
+    portada:Boolean
 });
 
 
